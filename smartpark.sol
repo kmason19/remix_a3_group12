@@ -146,6 +146,10 @@ contract BookingAndPayment {
         // Calculate total booking cost based on hourly price and selected duration
         uint256 totalAmount = pricePerHour * _durationHours;
         require(msg.value == totalAmount, "Incorrect payment amount");
+        
+        (bool success, ) = payable(parkingContract.provider()).call{value: msg.value}("");
+        require(success, "Payment transfer failed");
+
         require(isAvailable, "Parking Space is not available");
         require(!isDeleted, "Parking Space has been deleted");
         // Increment booking count to generate a unique booking ID
