@@ -139,12 +139,13 @@ contract BookingAndPayment {
     }
     // Function used to create new parking booking
     // Retrieve parking space details from the ParkingSpaceManagement contract
-    function createBooking(uint256 _spaceId, uint256 _durationHours) public {
+    function createBooking(uint256 _spaceId, uint256 _durationHours) public payable{
         ( , uint256 pricePerHour, , bool isAvailable, bool isDeleted, ) = parkingContract.getSpaceDetails(_spaceId);
         // Validate selected booking duration
         require(_durationHours == 1 || _durationHours == 2 || _durationHours == 4 || _durationHours == 6 || _durationHours == 24, "Invalid duration option");
         // Calculate total booking cost based on hourly price and selected duration
         uint256 totalAmount = pricePerHour * _durationHours;
+        require(msg.value == totalAmount, "Incorrect payment amount");
         require(isAvailable, "Parking Space is not available");
         require(!isDeleted, "Parking Space has been deleted");
         // Increment booking count to generate a unique booking ID
