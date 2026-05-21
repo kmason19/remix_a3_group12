@@ -19,3 +19,19 @@ durationInput.addEventListener("change", calculateTotal);
 
 calculateTotal();
 
+const createBookingBtn = document.getElementById("createBookingBtn");
+const transactionStatus = document.getElementById("transactionStatus");
+const cancelBookingBtn = document.getElementById("cancelBookingBtn");
+const completeBookingBtn = document.getElementById("completeBookingBtn");
+
+createBookingBtn.addEventListener("click", function () {
+    transactionStatus.textContent = "Status: Booking submitted successfully.";
+});
+
+cancelBookingBtn.addEventListener("click", function () {
+    transactionStatus.textContent = "Status: Booking cancelled successfully.";
+});
+
+completeBookingBtn.addEventListener("click", function (){
+    transactionStatus.textContent = "Status: Booking completed successfully.";
+});
