@@ -26,15 +26,14 @@
         <button id="connectWalletBtn">Connect Wallet</button>
     </header>
 
-    <main>
-     <section class="booking-container">
+    <main class="booking-page">
 
-            <div class="card">
+     <section class="card create-booking-card">
                 <h2>Create Booking</h2>
                 <p>Select an available parking space and choose a booking duration</p>
 
                 <label>Space ID</label>
-                <input id="spaceIdInput "type="number" placeholder="Enter space ID">
+                <input id="spaceIdInput" type="number" placeholder="Enter space ID">
                 <label>Duration</label>
                 <select id="durationInput">
                     <option value="1">1 hour</option>
@@ -48,10 +47,10 @@
                 <input id="totalAmountInput" type="text" placeholder="Calculated total price" readonly>
 
                 <button>Create Booking & Pay</button>
-            </div>
+
         </section>
 
-        <section class="booking-container">
+        <section class="booking-info-row">
             <div class="card">
                 <h2>Booking Summary</h2>
 
@@ -60,17 +59,14 @@
                 <p><strong>Price Per Hour</strong> <span id="summaryPrice"> $10</span></p>
                 <p><strong>Total Amount:</strong> <span id="summaryTotal"> $10</span></p>
             </div>
-        </section>
 
-        <section class="booking-container">
             <div class="card">
                 <h2>Transaction Status</h2>
                 <p id="transactionStatus">Status: Waiting for booking submission.</p>
             </div>
         </section>
 
-        <section class="booking-container">
-            <div class="card">
+        <section class="card manage-booking-card">
                 <h2>Manage Booking</h2>
                 <p>Cancel or complete an existing booking using the Booking ID.</p>
 
@@ -79,7 +75,6 @@
 
                 <button id="completeBookingBtn">Complete Booking</button>
                 <button id="cancelBookingBtn" class="cancel-btn">Cancel Booking</button>
-            </div>
         </section>
     </main>
     <script src="script.js"></script>

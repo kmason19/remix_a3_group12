@@ -178,6 +178,33 @@ select {
   background-color: #b83f3b;
 }
 
+.booking-page {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.create-booking-card {
+    margin-bottom: 25px;
+}
+
+.booking-info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.manage-booking-card {
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .booking-info-row {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 768px) {
   nav {
     flex-direction: column;
