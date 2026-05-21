@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartPark</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <nav>
+        <h2>SmartPark</h2>
+        <div>
+            <a href="index.html">Home</a>
+            <a href="booking.html">Bookings</a>
+            <a href="provider.html">Provider</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>SmartPark</h1>
+        <p>Book hotel parking spaces securely using blockchain smart contracts</p>
+        <p id="walletAddress">Wallet not connected</p>
+        <button id="connectWalletBtn">Connect Wallet</button>
+    </header>
+
+     <section class="dashboard">
+
+            <div class="card">
+                <h2>Create Booking</h2>
+
+                <label>Space ID</label>
+                <input id="spaceIdInput "type="number" placeholder="Enter space ID">
+                <label>Duration</label>
+                <select id="durationInput">
+                    <option value="1">1 hour</option>
+                    <option value="2">2 hours</option>
+                    <option value="4">4 hours</option>
+                    <option value="6">6 hours</option>
+                    <option value="24">24 hours</option>
+                </select>
+
+                <label>Total Amount</label>
+                <input id="totalAmountInput" type="text" placeholder="Calculated total price" readonly>
+
+                <button>Create Booking & Pay</button>
+            </div>
+        </section>
+    <script src="script.js"></script>
+</body>
+
+</html>
