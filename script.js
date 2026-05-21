@@ -1,13 +1,18 @@
 const durationInput = document.getElementById("durationInput");
 const totalAmountInput = document.getElementById("totalAmountInput");
 
+const summaryDuration = document.getElementById("summaryDuration");
+const summaryTotal = document.getElementById("summaryTotal");
+
 const pricePerHour = 10;
 
 function calculateTotal() {
     const duration = Number(durationInput.value);
     const total = pricePerHour * duration;
 
-    totalAmountInput.value = total + "wei";
+    totalAmountInput.value = "$" + total;
+    summaryDuration.textContent = duration + " hour" + (duration > 1 ? "s" : "");
+    summaryTotal.textContent = "$" + total;
 }
 
 durationInput.addEventListener("change", calculateTotal);
