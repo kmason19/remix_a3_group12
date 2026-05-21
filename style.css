@@ -207,6 +207,17 @@ select {
   gap: 25px;
 }
 
+.managed-space {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 15px;
+}
+
+.managed-space h3 {
+  margin-top: 0;
+}
+
 @media (max-width: 768px) {
     .booking-info-row {
         grid-template-columns: 1fr;
