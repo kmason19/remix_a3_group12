@@ -218,6 +218,12 @@ select {
   margin-top: 0;
 }
 
+.logo {
+    width: 75px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
     .booking-info-row {
         grid-template-columns: 1fr;
