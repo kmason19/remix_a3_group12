@@ -25,23 +25,57 @@
         <p id="walletAddress">Wallet not connected</p>
         <button id="connectWalletBtn">Connect Wallet</button>
     </header>
+    <main class="provider-page">
+        <section class="card">
+            <h2>Create Parking Space</h2>
 
-                <section id="providerDashboard">
-                <div class="card">
-                    <h2>Provider Dashboard</h2>
+            <label>Space Name</label>
+            <input id="spaceNameInput" type="text" placeholder="Hotel Space A">
 
-                    <label>Space Name</label>
-                    <input type="text" placeholder="">
+            <label>Price Per Hour</label>
+            <input id="priceInput" type="number" placeholder="10">
 
-                    <label>Price Per Hour</label>
-                    <input type="number" placeholder="10">
+            <label>Location</label>
+            <input id="locationInput" type="text" placeholder="Brisbane CBD">
 
-                    <label>Location</label>
-                    <input type="text" placeholder="">
+            <button id="createSpaceBtn">Create Space</button>
+        </section>
 
-                    <button>Create Parking Space</button>
-                </div>
-            </section>
+        <section class="card">
+            <h2>Update Parking Space</h2>
+
+            <label>Space ID</label>
+            <input id="updateSpaceIdInput" type="number" placeholder="Enter space ID">
+
+            <label>New Price Per Hour</label>
+            <input id="updatePriceInput" type="number" placeholder="15">
+
+            <label>New Location</label>
+            <input id="updateLocationInput" type="text" placeholder="South Bank">
+
+            <label>Availability</label>
+            <select id="availabilityInput">
+                <option value="true">Available</option>
+                <option value="false">Unavailable</option>
+            </select>
+
+            <button id="updateSpaceBtn">Update Space</button>
+        </section>
+
+        <section class="card">
+            <h2> Delete Parking Space</h2>
+
+            <label>Space ID</label>
+            <input id="deleteSpaceIdInput" type="number" placeholder="Enter space ID">
+
+            <button id="deleteSpaceBtn" class="cancel-btn">Delete Space</button>
+        </section>
+
+        <section class="card">
+            <h2>Transaction Status</h2>
+            <p id="providerStatus">No provider transaction submitted yet.</p>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>

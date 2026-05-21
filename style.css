@@ -199,6 +199,14 @@ select {
     margin-bottom: 40px;
 }
 
+.provider-page {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  gap: 25px;
+}
+
 @media (max-width: 768px) {
     .booking-info-row {
         grid-template-columns: 1fr;
