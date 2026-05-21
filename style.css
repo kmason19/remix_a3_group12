@@ -170,6 +170,14 @@ select {
   width: 100%;
 }
 
+.cancel-btn {
+  background-color: #d9534f;
+}
+
+.cancel-btn:hover {
+  background-color: #b83f3b;
+}
+
 @media (max-width: 768px) {
   nav {
     flex-direction: column;
