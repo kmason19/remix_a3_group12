@@ -83,13 +83,8 @@
 
                 <br><br>
 
-                <button onclick="fillUpdateForm(1, 'Hotel Space A', 10,'Brisbane CBD', true)">
-                    Update
-                </button>
-
-                <button onclick="fillDeleteForm(1)" class="cancel-btn">
-                    Delete
-                </button>
+                <button onclick="fillUpdateForm(1, 'Hotel Space A', 10, 'Brisbane CBD', true)">Update</button>
+                <button onclick="fillDeleteForm(1)" class="cancel-btn">Delete</button>
             </div>
 
             <div class="managed-space">
@@ -100,13 +95,8 @@
 
                  <br><br>
 
-                <button onclick="fillUpdateForm(2, 'Hotel Space B', 15,'Brisbane CBD', false)">
-                    Update
-                </button>
-
-                <button onclick="fillDeleteForm(2)" class="cancel-btn">
-                    Delete
-                </button>
+                <button onclick="fillUpdateForm(2, 'Hotel Space B', 15, 'Brisbane CBD', false)">Update</button>
+                <button onclick="fillDeleteForm(2)" class="cancel-btn">Delete</button>
             </div>
         </section>
 
@@ -116,7 +106,50 @@
         </section>
     </main>
 
-    <script src="script.js"></script>
+    <script>
+window.fillUpdateForm = function(id, name, price, location, available) {
+  document.getElementById("updateSpaceIdInput").value = id;
+  document.getElementById("updateSpaceNameInput").value = name;
+  document.getElementById("updatePriceInput").value = price;
+  document.getElementById("updateLocationInput").value = location;
+  document.getElementById("availabilityInput").value = available.toString();
+
+  document.getElementById("providerStatus").textContent =
+    "Status: Space #" + id + " loaded into the update form.";
+};
+
+window.fillDeleteForm = function(id) {
+  document.getElementById("deleteSpaceIdInput").value = id;
+
+  document.getElementById("providerStatus").textContent =
+    "Status: Space #" + id + " loaded into the delete form.";
+};
+
+const createSpaceBtn = document.getElementById("createSpaceBtn");
+const updateSpaceBtn = document.getElementById("updateSpaceBtn");
+const deleteSpaceBtn = document.getElementById("deleteSpaceBtn");
+
+if (createSpaceBtn) {
+  createSpaceBtn.addEventListener("click", function() {
+    document.getElementById("providerStatus").textContent =
+      "Status: Parking space created successfully.";
+  });
+}
+
+if (updateSpaceBtn) {
+  updateSpaceBtn.addEventListener("click", function() {
+    document.getElementById("providerStatus").textContent =
+      "Status: Parking space updated successfully.";
+  });
+}
+
+if (deleteSpaceBtn) {
+  deleteSpaceBtn.addEventListener("click", function() {
+    document.getElementById("providerStatus").textContent =
+      "Status: Parking space deleted successfully.";
+  });
+}
+    </script>
 </body>
 
 </html>
