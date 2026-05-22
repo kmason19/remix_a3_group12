@@ -9,6 +9,7 @@ body {
   color: #14245a;
 }
 
+
 nav {
   background-color: white;
   padding: 18px 8%;
@@ -58,14 +59,14 @@ button {
 }
 
 .button-link {
-    display: inline-block;
-    background-color: #1fb6a6;
-    color: white;
-    text-decoration: none;
-    padding: 12px 20px;
-    border-radius: 8px;
-    font-weight: bold;
-    margin-top: 20px;
+  display: inline-block;
+  background-color: #1fb6a6;
+  color: white;
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: 20px;
 }
 
 .button-link {
