@@ -95,7 +95,7 @@
 
                  <br><br>
 
-                <button onclick="fillUpdateForm(2, 'Hotel Space B', 15, 'Brisbane CBD', false)">Update</button>
+                <button onclick="fillUpdateForm(2, 'Hotel Space B', 15, 'Brisbane CBD', true)">Update</button>
                 <button onclick="fillDeleteForm(2)" class="cancel-btn">Delete</button>
             </div>
         </section>
@@ -128,25 +128,23 @@ window.fillDeleteForm = function(id) {
 const createSpaceBtn = document.getElementById("createSpaceBtn");
 const updateSpaceBtn = document.getElementById("updateSpaceBtn");
 const deleteSpaceBtn = document.getElementById("deleteSpaceBtn");
+const providerStatus = document.getElementById("providerStatus");
 
-if (createSpaceBtn) {
-  createSpaceBtn.addEventListener("click", function() {
-    document.getElementById("providerStatus").textContent =
-      "Status: Parking space created successfully.";
+if (createSpaceBtn && providerStatus) {
+  createSpaceBtn.addEventListener("click", function () {
+    providerStatus.textContent = "Status: Parking space created successfully.";
   });
 }
 
-if (updateSpaceBtn) {
-  updateSpaceBtn.addEventListener("click", function() {
-    document.getElementById("providerStatus").textContent =
-      "Status: Parking space updated successfully.";
+if (updateSpaceBtn && providerStatus) {
+  updateSpaceBtn.addEventListener("click", function () {
+    providerStatus.textContent = "Status: Parking space updated successfully.";
   });
 }
 
-if (deleteSpaceBtn) {
-  deleteSpaceBtn.addEventListener("click", function() {
-    document.getElementById("providerStatus").textContent =
-      "Status: Parking space deleted successfully.";
+if (deleteSpaceBtn && providerStatus) {
+  deleteSpaceBtn.addEventListener("click", function () {
+    providerStatus.textContent = "Status: Parking space deleted successfully.";
   });
 }
     </script>
