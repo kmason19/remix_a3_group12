@@ -28,6 +28,7 @@ function renderHomeSpaces() {
         ${space.available ? "Available" : "Booked"}
       </span>
       <h3>${space.name}</h3>
+      <h3>Space ID: ${space.id}</h3>
       <p>Location: ${space.location}</p>
       <p>Price: $${space.price} per hour</p>
       ${
