@@ -17,7 +17,9 @@ function renderHomeSpaces() {
 
   parkingSpacesList.innerHTML = "";
 
-  spaces.forEach(function (space) {
+  spaces
+    .filter(space => !space.deleted)
+    .forEach(function (space) {
     const card = document.createElement("div");
     card.className = "parking-card";
 
@@ -50,12 +52,28 @@ function renderProviderSpaces() {
     const card = document.createElement("div");
     card.className = "managed-space";
 
+    const statusText = space.deleted
+        ? "Deleted"
+        : space.available
+            ? "Available"
+            : "Unavailable";
+
+    const statusClass = space.deleted
+        ? "deleted"
+        : space.available
+            ? "available"
+            : "booked";
+        
+    if (space.deleted) {
+        card.classList.add("deleted-space");
+    }
+
     card.innerHTML = `
       <h3>Space #${space.id} - ${space.name}</h3>
       <p>Location: ${space.location}</p>
       <p>Price: $${space.price} per hour</p>
-      <span class="status ${space.available ? "available" : "booked"}">
-        ${space.available ? "Available" : "Unavailable"}
+      <span class="status ${statusClass}">
+        ${statusText}
       </span>
       <br><br>
       <button onclick="fillUpdateForm(${space.id})">Update</button>
@@ -88,7 +106,8 @@ if (createSpaceBtn && providerStatus) {
       name: name,
       price: Number(price),
       location: location,
-      available: true
+      available: true,
+      deleted: false
     });
 
     saveSpaces();
@@ -158,12 +177,19 @@ if (deleteSpaceBtn && providerStatus) {
   deleteSpaceBtn.addEventListener("click", function () {
     const id = Number(document.getElementById("deleteSpaceIdInput").value);
 
-    spaces = spaces.filter(space => space.id !== id);
+    const space = spaces.find(space => space.id === id);
+    if (!space) {
+      providerStatus.textContent = "Status: Space not found.";
+      return;
+    }
+    space.deleted = true;
+    space.available = false;
+
 
     saveSpaces();
     renderProviderSpaces();
 
-    providerStatus.textContent = "Status: Parking space deleted successfully.";
+    providerStatus.textContent = "Status: Parking space disabled successfully.";
   });
 }
 
