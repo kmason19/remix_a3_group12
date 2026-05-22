@@ -30,13 +30,13 @@
             <h2>Create Parking Space</h2>
 
             <label>Space Name</label>
-            <input id="spaceNameInput" type="text" placeholder="Hotel Space A">
+            <input id="spaceNameInput" type="text" placeholder="Enter space name">
 
             <label>Price Per Hour</label>
-            <input id="priceInput" type="number" placeholder="10">
+            <input id="priceInput" type="number" placeholder="Enter price per hour">
 
             <label>Location</label>
-            <input id="locationInput" type="text" placeholder="Brisbane CBD">
+            <input id="locationInput" type="text" placeholder="Enter location">
 
             <button id="createSpaceBtn">Create Space</button>
         </section>
@@ -47,11 +47,14 @@
             <label>Space ID</label>
             <input id="updateSpaceIdInput" type="number" placeholder="Enter space ID">
 
+            <label>New Space Name</label>
+            <input id="updateSpaceNameInput" type="text" placeholder="Enter new space name">
+
             <label>New Price Per Hour</label>
-            <input id="updatePriceInput" type="number" placeholder="15">
+            <input id="updatePriceInput" type="number" placeholder="Enter new price per hour">
 
             <label>New Location</label>
-            <input id="updateLocationInput" type="text" placeholder="South Bank">
+            <input id="updateLocationInput" type="text" placeholder="Enter new location">
 
             <label>Availability</label>
             <select id="availabilityInput">
@@ -75,29 +78,8 @@
             <h2>Managed Parking Spaces</h2>
             <p>View and manage parking spaces currently listed in SmartPark.</p>
 
-            <div class="managed-space" id="space-1">
-                <h3 class="space-title">Space #1 - Hotel Space A</h3>
-                <p class="space-location">Location: Brisbane CBD</p>
-                <p class="space-price">Price: $10 per hour</p>
-                <span class="status available">Available</span>
+            <div id="managedSpacesList"></div>
 
-                <br><br>
-
-                <button onclick="fillUpdateForm(1, 'Hotel Space A', 10, 'Brisbane CBD', true)">Update</button>
-                <button onclick="fillDeleteForm(1)" class="cancel-btn">Delete</button>
-            </div>
-
-            <div class="managed-space" id="space-2">
-                <h3 class="space-title">Space #2 - Hotel Space B</h3>
-                <p class="space-location">Location: Brisbane CBD</p>
-                <p class="space-price">Price: $15 per hour</p>
-                <span class="status booked">Unavailable</span>
-
-                 <br><br>
-
-                <button onclick="fillUpdateForm(2, 'Hotel Space B', 15, 'Brisbane CBD', true)">Update</button>
-                <button onclick="fillDeleteForm(2)" class="cancel-btn">Delete</button>
-            </div>
         </section>
 
         <section class="card">
@@ -106,74 +88,7 @@
         </section>
     </main>
 
-    <script>
-window.fillUpdateForm = function(id, name, price, location, available) {
-  document.getElementById("updateSpaceIdInput").value = id;
-  document.getElementById("updateSpaceNameInput").value = name;
-  document.getElementById("updatePriceInput").value = price;
-  document.getElementById("updateLocationInput").value = location;
-  document.getElementById("availabilityInput").value = available.toString();
-
-  document.getElementById("providerStatus").textContent =
-    "Status: Space #" + id + " loaded into the update form.";
-};
-
-window.fillDeleteForm = function(id) {
-  document.getElementById("deleteSpaceIdInput").value = id;
-
-  document.getElementById("providerStatus").textContent =
-    "Status: Space #" + id + " loaded into the delete form.";
-};
-
-const createSpaceBtn = document.getElementById("createSpaceBtn");
-const updateSpaceBtn = document.getElementById("updateSpaceBtn");
-const deleteSpaceBtn = document.getElementById("deleteSpaceBtn");
-const providerStatus = document.getElementById("providerStatus");
-
-if (createSpaceBtn && providerStatus) {
-  createSpaceBtn.addEventListener("click", function () {
-    providerStatus.textContent = "Status: Parking space created successfully.";
-  });
-}
-
-if (updateSpaceBtn && providerStatus) {
-    updateSpaceBtn.addEventListener("click", function () {
-
-        const id = document.getElementById("updateSpaceIdInput").value;
-        const price = document.getElementById("updatePriceInput").value;
-        const location = document.getElementById("updateLocationInput").value;
-
-        const card = document.getElementById("space-" + id);
-
-        if (card) {
-            card.querySelector(".space-price").textContent =
-                "Price: $" + price + " per hour";
-
-            card.querySelector(".space-location").textContent =
-                "Location: " + location;
-
-            providerStatus.textContent =
-                "Status: Parking space updated successfully.";
-        }
-    });
-}
-
-if (deleteSpaceBtn && providerStatus) {
-    deleteSpaceBtn.addEventListener("click", function () {
-
-        const id = document.getElementById("deleteSpaceIdInput").value;
-
-        const card = document.getElementById("space-" + id);
-
-        if (card) {
-            card.remove();
-
-            providerStatus.textContent =
-                "Status: Parking space deleted successfully.";
-        }
-    });
-}
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
