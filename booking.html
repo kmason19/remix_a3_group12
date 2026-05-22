@@ -85,56 +85,10 @@
 
         <section class="card recent-bookings-card">
             <h2>Recent Bookings</h2>
-
-            <div class="recent-booking">
-                <h3>Booking #1</h3>
-                <p>Space: Hotel Space A</p>
-                <p>Duration: 2 hours</p>
-                <span class="status available">Confirmed</span>
-            </div>
-
-            <div class="recent-booking">
-                <h3>Booking #2</h3>
-                <p>Space: Hotel Space B</p>
-                <p>Duration: 4 hours</p>
-                <span class="status booked">Cancelled</span>
-            </div>
+            <div id="recentBookingsList"></div>
         </section>
     </main>
-    <script src="script.js">
-const selectedSpaceInput = document.getElementById("selectedSpaceInput");
-const spaceIdInput = document.getElementById("spaceIdInput");
-const durationInput = document.getElementById("durationInput");
-const totalAmountInput = document.getElementById("totalAmountInput");
-
-const summarySpace = document.getElementById("summarySpace");
-const summaryDuration = document.getElementById("summaryDuration");
-const summaryPrice = document.getElementById("summaryPrice");
-const summaryTotal = document.getElementById("summaryTotal");
-
-function updateBookingSummary() {
-  const selectedOption = selectedSpaceInput.options[selectedSpaceInput.selectedIndex];
-  const spaceId = selectedOption.value;
-  const pricePerHour = Number(selectedOption.dataset.price);
-  const spaceText = selectedOption.textContent;
-  const duration = Number(durationInput.value);
-  const total = pricePerHour * duration;
-
-  spaceIdInput.value = spaceId;
-  totalAmountInput.value = "$" + total;
-
-  summarySpace.textContent = spaceText;
-  summaryDuration.textContent = duration + " hour" + (duration > 1 ? "s" : "");
-  summaryPrice.textContent = "$" + pricePerHour;
-  summaryTotal.textContent = "$" + total;
-}
-
-if (selectedSpaceInput && durationInput) {
-  selectedSpaceInput.addEventListener("change", updateBookingSummary);
-  durationInput.addEventListener("change", updateBookingSummary);
-  updateBookingSummary();
-}
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>
