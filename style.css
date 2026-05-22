@@ -225,6 +225,17 @@ select {
     margin-bottom: 20px;
 }
 
+.recent-booking {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 15px;
+}
+
+.recent-booking h3 {
+  margin-top: 0;
+}
+
 @media (max-width: 768px) {
     .booking-info-row {
         grid-template-columns: 1fr;

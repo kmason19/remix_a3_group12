@@ -32,6 +32,12 @@
                 <h2>Create Booking</h2>
                 <p>Select an available parking space and choose a booking duration</p>
 
+                <label>Selected Space</label>
+                <select id="selectedSpaceInput">
+                    <option value="1">Hotel Space A - Space ID 1</option>
+                    <option value="2">Hotel Space B - Space ID 2</option>
+                </select>
+
                 <label>Space ID</label>
                 <input id="spaceIdInput" type="number" placeholder="Enter space ID">
                 <label>Duration</label>
@@ -54,7 +60,7 @@
             <div class="card">
                 <h2>Booking Summary</h2>
 
-                <p><strong>Selected Space:</strong> <span id="summarySpace">Space ID 1</span></p>
+                <p><strong>Selected Space:</strong> <span id="summarySpace">Hotel Space A - Space ID 1</span></p>
                 <p><strong>Duration:</strong> <span id="summaryDuration">1 hour</span></p>
                 <p><strong>Price Per Hour</strong> <span id="summaryPrice"> $10</span></p>
                 <p><strong>Total Amount:</strong> <span id="summaryTotal"> $10</span></p>
@@ -76,8 +82,59 @@
                 <button id="completeBookingBtn">Complete Booking</button>
                 <button id="cancelBookingBtn" class="cancel-btn">Cancel Booking</button>
         </section>
+
+        <section class="card recent-bookings-card">
+            <h2>Recent Bookings</h2>
+
+            <div class="recent-booking">
+                <h3>Booking #1</h3>
+                <p>Space: Hotel Space A</p>
+                <p>Duration: 2 hours</p>
+                <span class="status available">Confirmed</span>
+            </div>
+
+            <div class="recent-booking">
+                <h3>Booking #2</h3>
+                <p>Space: Hotel Space B</p>
+                <p>Duration: 4 hours</p>
+                <span class="status booked">Cancelled</span>
+            </div>
+        </section>
     </main>
-    <script src="script.js"></script>
+    <script src="script.js">
+const selectedSpaceInput = document.getElementById("selectedSpaceInput");
+const spaceIdInput = document.getElementById("spaceIdInput");
+const durationInput = document.getElementById("durationInput");
+const totalAmountInput = document.getElementById("totalAmountInput");
+
+const summarySpace = document.getElementById("summarySpace");
+const summaryDuration = document.getElementById("summaryDuration");
+const summaryPrice = document.getElementById("summaryPrice");
+const summaryTotal = document.getElementById("summaryTotal");
+
+function updateBookingSummary() {
+  const selectedOption = selectedSpaceInput.options[selectedSpaceInput.selectedIndex];
+  const spaceId = selectedOption.value;
+  const pricePerHour = Number(selectedOption.dataset.price);
+  const spaceText = selectedOption.textContent;
+  const duration = Number(durationInput.value);
+  const total = pricePerHour * duration;
+
+  spaceIdInput.value = spaceId;
+  totalAmountInput.value = "$" + total;
+
+  summarySpace.textContent = spaceText;
+  summaryDuration.textContent = duration + " hour" + (duration > 1 ? "s" : "");
+  summaryPrice.textContent = "$" + pricePerHour;
+  summaryTotal.textContent = "$" + total;
+}
+
+if (selectedSpaceInput && durationInput) {
+  selectedSpaceInput.addEventListener("change", updateBookingSummary);
+  durationInput.addEventListener("change", updateBookingSummary);
+  updateBookingSummary();
+}
+    </script>
 </body>
 
 </html>
