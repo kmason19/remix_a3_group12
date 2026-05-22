@@ -75,10 +75,10 @@
             <h2>Managed Parking Spaces</h2>
             <p>View and manage parking spaces currently listed in SmartPark.</p>
 
-            <div class="managed-space">
-                <h3>Space #1 - Hotel Space A</h3>
-                <p>Location: Brisbane CBD</p>
-                <p>Price: $10 per hour</p>
+            <div class="managed-space" id="space-1">
+                <h3 class="space-title">Space #1 - Hotel Space A</h3>
+                <p class="space-location">Location: Brisbane CBD</p>
+                <p class="space-price">Price: $10 per hour</p>
                 <span class="status available">Available</span>
 
                 <br><br>
@@ -87,10 +87,10 @@
                 <button onclick="fillDeleteForm(1)" class="cancel-btn">Delete</button>
             </div>
 
-            <div class="managed-space">
-                <h3>Space #2 - Hotel Space B</h3>
-                <p>Location: Brisbane CBD</p>
-                <p>Price: $15 per hour</p>
+            <div class="managed-space" id="space-2">
+                <h3 class="space-title">Space #2 - Hotel Space B</h3>
+                <p class="space-location">Location: Brisbane CBD</p>
+                <p class="space-price">Price: $15 per hour</p>
                 <span class="status booked">Unavailable</span>
 
                  <br><br>
@@ -137,15 +137,41 @@ if (createSpaceBtn && providerStatus) {
 }
 
 if (updateSpaceBtn && providerStatus) {
-  updateSpaceBtn.addEventListener("click", function () {
-    providerStatus.textContent = "Status: Parking space updated successfully.";
-  });
+    updateSpaceBtn.addEventListener("click", function () {
+
+        const id = document.getElementById("updateSpaceIdInput").value;
+        const price = document.getElementById("updatePriceInput").value;
+        const location = document.getElementById("updateLocationInput").value;
+
+        const card = document.getElementById("space-" + id);
+
+        if (card) {
+            card.querySelector(".space-price").textContent =
+                "Price: $" + price + " per hour";
+
+            card.querySelector(".space-location").textContent =
+                "Location: " + location;
+
+            providerStatus.textContent =
+                "Status: Parking space updated successfully.";
+        }
+    });
 }
 
 if (deleteSpaceBtn && providerStatus) {
-  deleteSpaceBtn.addEventListener("click", function () {
-    providerStatus.textContent = "Status: Parking space deleted successfully.";
-  });
+    deleteSpaceBtn.addEventListener("click", function () {
+
+        const id = document.getElementById("deleteSpaceIdInput").value;
+
+        const card = document.getElementById("space-" + id);
+
+        if (card) {
+            card.remove();
+
+            providerStatus.textContent =
+                "Status: Parking space deleted successfully.";
+        }
+    });
 }
     </script>
 </body>
