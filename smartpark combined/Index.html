@@ -39,12 +39,65 @@
 
         <section class="card status-box">
             <h2>Transaction Status</h2>
-            <p>No transaction submitted yet.</p>
+            <p id="homestatus">No transaction submitted yet.</p>
         </section>
 
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
-    <script src="script.js"></script>
+<script>
+//store conection to blockchain netwotrk 
+let provider;
+//store the current;u connected wallet account
+let signer;
+//store wallet address as text
+let userAddress;
+
+
+//Waits until webpage loads  
+window.addEventListener("load", async function () {
+
+    //Checks metamask is installed 
+    if (!window.ethereum) {
+
+        //Message displaying metamask cannot be found
+        document.getElementById("walletAddress").textContent =
+            "MetaMask not installed";
+
+        //stop code from running
+        return;
+    }
+
+    try {
+        //create connection between ether.js and metamask
+        provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        //request permission from metamask to access user's wallet
+        await provider.send("eth_requestAccounts", []);
+
+        //get wallet account selected in metamask
+        signer = provider.getSigner();
+        //retreive wallet address
+        userAddress = await signer.getAddress();
+
+        //displays wallet address on webpage (shortended version)
+        document.getElementById("walletAddress").textContent =
+            "Connected: " +
+            userAddress.substring(0, 6) +
+            "..." +
+            userAddress.substring(userAddress.length - 4);
+
+        //print full wallet address to browser console
+        console.log("Connected wallet:", userAddress);
+
+
+    //catches errors during connection
+    } catch (error) {
+        //prints error
+        console.log("Wallet connection failed:", error);
+    }
+});
+</script>
 </body>
 
 </html>
