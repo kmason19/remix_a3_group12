@@ -63,6 +63,13 @@
                 <button id="completeBookingBtn">Complete Booking</button>
                 <button id="cancelBookingBtn" class="cancel-btn">Cancel Booking</button>
         </section>
+
+        <section class="card your-bookings-card">
+          <h2>Your Bookings</h2>
+          <p>View bookings created by your connected wallet.</p>
+          <div id="yourBookingsList"></div>
+        </section>
+
         <section class="card recent-bookings-card">
             <h2>Recent Bookings</h2>
             <div id="recentBookingsList"></div>
@@ -72,8 +79,8 @@
         
         <script>
         //CONTRACT ABI
-    const parkingContractAddress = "0xB2B086f61a8d0F92C95c3a2FcbA53b79E811294C";
-    const bookingContractAddress = "0xa2EF8Aa58C44A5a6C403C89A0ed295f4fD8Fc206";
+    const parkingContractAddress = "0xb675b8aF35472667D3C2086fBD35823F71E16335";
+    const bookingContractAddress = "0xb666b8C5f16C100E5A5B0543cccc2A5ecBEBA6A1";
     const parkingContractABI = 
     //PARKINGMANAGEMENT ABI
     [

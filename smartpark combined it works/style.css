@@ -225,15 +225,50 @@ select {
     margin-bottom: 20px;
 }
 
-.recent-booking {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  padding: 18px;
-  margin-top: 15px;
+/* Your Bookings section */
+.your-bookings-card {
+  margin-bottom: 35px;
 }
 
+/* Recent Bookings section */
+.recent-bookings-card {
+  margin-top: 35px;
+}
+
+/* Individual booking cards */
+.recent-booking {
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-top: 20px;
+  background-color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover effect */
+.recent-booking:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* Booking heading */
 .recent-booking h3 {
   margin-top: 0;
+  margin-bottom: 20px;
+  color: #14245a;
+  border-bottom: 1px solid #eeeeee;
+  padding-bottom: 10px;
+}
+
+/* Booking details */
+.recent-booking p {
+  margin: 12px 0;
+  line-height: 1.5;
+}
+
+/* Labels */
+.recent-booking strong {
+  color: #14245a;
 }
 
 .space-card {
