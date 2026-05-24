@@ -1,32 +1,37 @@
-//METAMASK WALLET AND SMART CONTRACT CONNECTION
-// Varibles that assist in the interation between and the smart contract
-//store connection to blockchain network
+// METAMASK WALLET AND SMART CONTRACT CONNECTION
+
 let provider;
-//stores current connected wallet account
 let signer;
 let parkingContract;
+let bookingContract;
 
-//references to HTML elements used throughout the page
+// HTML elements
 const walletAddress = document.getElementById("walletAddress");
 const connectWalletBtn = document.getElementById("connectWalletBtn");
 const providerStatus = document.getElementById("providerStatus");
 
-//creates connection between the frontend and delopyed contract
+// Connect frontend to both deployed smart contracts
 async function setupContract() {
-  //create connection between ether.js and metamask
   provider = new ethers.providers.Web3Provider(window.ethereum);
-  //get wallet account selected in metamask
   signer = provider.getSigner();
-  parkingContract = new ethers.Contract(contractAddress, contractABI, signer);
+
+  parkingContract = new ethers.Contract(
+    parkingContractAddress,
+    parkingContractABI,
+    signer
+  );
+
+  bookingContract = new ethers.Contract(
+    bookingContractAddress,
+    bookingContractABI,
+    signer
+  );
 }
 
-//connects metamask wallet to application
+// Connect MetaMask wallet
 async function connectWallet() {
-  //Checks metamask is installed 
   if (!window.ethereum) {
-    //Message displaying metamask cannot be found
     providerStatus.textContent = "MetaMask is not installed.";
-    //stop code from running
     return;
   }
 
@@ -37,25 +42,19 @@ async function connectWallet() {
 
     await setupContract();
 
-    //Message displaying wallet is connected with the name of the connected address
     walletAddress.textContent = `Connected: ${accounts[0]}`;
-    //Message displaying wallet connection was a success
     providerStatus.textContent = "Wallet connected successfully.";
 
     await loadManagedSpaces();
+    await loadProviderBookings();
 
-  } 
-
-  //catches errors during connection
-  catch (error) {
-    //displays error message that wallect connection failed
+  } catch (error) {
     providerStatus.textContent = "Wallet connection failed.";
     console.error(error);
   }
 }
 
-
-//Checks if metamask is already connected when page loads
+// Check if wallet is already connected
 async function checkAlreadyConnected() {
   if (!window.ethereum) return;
 
@@ -65,27 +64,20 @@ async function checkAlreadyConnected() {
 
   if (accounts.length > 0) {
     await setupContract();
-    //Message displaying wallet is connected with the name of the connected address
+
     walletAddress.textContent = `Connected: ${accounts[0]}`;
-    //Message displaying wallet connection was a success
     providerStatus.textContent = "Wallet already connected.";
 
     await loadManagedSpaces();
+    await loadProviderBookings();
   }
 }
 
-//Event listener for the connect wallet button on webpage
 connectWalletBtn.addEventListener("click", connectWallet);
-//checks for exisitng wallet connection when page loads
 window.addEventListener("load", checkAlreadyConnected);
 
 
-
-
-
-//CREATE PARKING SPACE FUNCTIONALITY
-
-//handles new parking space creation through ParkManagement smart contract
+// CREATE PARKING SPACE
 document.getElementById("createSpaceBtn").addEventListener("click", async () => {
   if (!parkingContract) {
     providerStatus.textContent = "Please connect your wallet first.";
@@ -124,6 +116,8 @@ document.getElementById("createSpaceBtn").addEventListener("click", async () => 
   }
 });
 
+
+// UPDATE PARKING SPACE
 document.getElementById("updateSpaceBtn").addEventListener("click", async () => {
   if (!parkingContract) {
     providerStatus.textContent = "Please connect your wallet first.";
@@ -159,6 +153,7 @@ document.getElementById("updateSpaceBtn").addEventListener("click", async () => 
     providerStatus.textContent = "Parking space updated successfully.";
 
     await loadManagedSpaces();
+    await loadProviderBookings();
 
   } catch (error) {
     providerStatus.textContent = "Failed to update parking space.";
@@ -166,6 +161,8 @@ document.getElementById("updateSpaceBtn").addEventListener("click", async () => 
   }
 });
 
+
+// DELETE PARKING SPACE
 document.getElementById("deleteSpaceBtn").addEventListener("click", async () => {
   if (!parkingContract) {
     providerStatus.textContent = "Please connect your wallet first.";
@@ -193,6 +190,7 @@ document.getElementById("deleteSpaceBtn").addEventListener("click", async () => 
     document.getElementById("deleteSpaceIdInput").value = "";
 
     await loadManagedSpaces();
+    await loadProviderBookings();
 
   } catch (error) {
     providerStatus.textContent = "Failed to delete parking space.";
@@ -200,7 +198,11 @@ document.getElementById("deleteSpaceBtn").addEventListener("click", async () => 
   }
 });
 
+
+// LOAD MANAGED PARKING SPACES
 async function loadManagedSpaces() {
+  if (!parkingContract) return;
+
   const list = document.getElementById("managedSpacesList");
   list.innerHTML = "";
 
@@ -219,17 +221,22 @@ async function loadManagedSpaces() {
     const location = space[2];
     const isAvailable = space[3];
     const isDeleted = space[4];
+    const timestamp = space[5];
 
     const deletedClass = isDeleted ? "deleted-space" : "";
 
+    const formattedTime = new Date(
+      Number(timestamp.toString()) * 1000
+    ).toLocaleString();
 
     list.innerHTML += `
-    <div class="space-card ${deletedClass}">
+      <div class="space-card ${deletedClass}">
         <h3>${spaceName}</h3>
 
         <p><strong>Space ID:</strong> ${i}</p>
         <p><strong>Price:</strong> $${pricePerHour.toString()}/hour</p>
         <p><strong>Location:</strong> ${location}</p>
+        <p><strong>Created At:</strong> ${formattedTime}</p>
 
         <p>
           <strong>Status:</strong>
@@ -237,22 +244,90 @@ async function loadManagedSpaces() {
         </p>
 
         <button
-            ${isDeleted ? "disabled" : ""}
-            onclick="fillUpdateForm(${i}, '${spaceName}', '${pricePerHour}', '${location}', ${isAvailable})">
-            Update Space
+          ${isDeleted ? "disabled" : ""}
+          onclick="fillUpdateForm(${i}, '${spaceName}', '${pricePerHour}', '${location}', ${isAvailable})">
+          Update Space
         </button>
 
         <button
-            ${isDeleted ? "disabled" : ""}
-            onclick="fillDeleteForm(${i})"
-            class="cancel-btn">
-            Delete Space
+          ${isDeleted ? "disabled" : ""}
+          onclick="fillDeleteForm(${i})"
+          class="cancel-btn">
+          Delete Space
         </button>
-    </div>
+      </div>
     `;
   }
 }
 
+
+// LOAD ALL BOOKINGS FOR PROVIDER
+async function loadProviderBookings() {
+  if (!bookingContract || !parkingContract) return;
+
+  const list = document.getElementById("providerBookingsList");
+  list.innerHTML = "";
+
+  const count = await bookingContract.bookingCount();
+
+  if (count.toNumber() === 0) {
+    list.innerHTML = "<p>No bookings created yet.</p>";
+    return;
+  }
+
+  for (let i = 1; i <= count.toNumber(); i++) {
+    const booking = await bookingContract.getBookingDetails(i);
+
+    const bookingId = booking[0];
+    const spaceId = booking[1];
+    const user = booking[2];
+    const durationHours = booking[3];
+    const totalAmount = booking[4];
+    const isPaid = booking[5];
+    const isCancelled = booking[6];
+    const isCompleted = booking[7];
+    const timestamp = booking[8];
+
+    const space = await parkingContract.getSpaceDetails(spaceId);
+    const spaceName = space[0];
+    const pricePerHour = space[1];
+    const location = space[2];
+
+    let status = "Confirmed";
+
+    if (isCancelled) {
+      status = "Cancelled";
+    } else if (isCompleted) {
+      status = "Completed";
+    } else if (isPaid) {
+      status = "Paid";
+    }
+
+    const formattedTime = new Date(
+      Number(timestamp.toString()) * 1000
+    ).toLocaleString();
+
+    list.innerHTML += `
+      <div class="recent-booking">
+        <h3>Booking #${bookingId.toString()}</h3>
+
+        <p><strong>Space ID:</strong> ${spaceId.toString()}</p>
+        <p><strong>Space Name:</strong> ${spaceName}</p>
+        <p><strong>Location:</strong> ${location}</p>
+        <p><strong>User:</strong> ${user}</p>
+        <p><strong>Price Per Hour:</strong> $${pricePerHour.toString()}</p>
+        <p><strong>Duration:</strong> ${durationHours.toString()} hour${durationHours.toNumber() > 1 ? "s" : ""}</p>
+        <p><strong>Total Amount:</strong> $${totalAmount.toString()}</p>
+        <p><strong>Payment Status:</strong> ${isPaid ? "Paid" : "Not Paid"}</p>
+        <p><strong>Booking Status:</strong> ${status}</p>
+        <p><strong>Booked At:</strong> ${formattedTime}</p>
+      </div>
+    `;
+  }
+}
+
+
+// FILL UPDATE FORM FROM CARD BUTTON
 function fillUpdateForm(id, name, price, location, available) {
   document.getElementById("updateSpaceIdInput").value = id;
   document.getElementById("updateSpaceNameInput").value = name;
@@ -263,6 +338,8 @@ function fillUpdateForm(id, name, price, location, available) {
   providerStatus.textContent = `Space ID ${id} loaded into update form.`;
 }
 
+
+// FILL DELETE FORM FROM CARD BUTTON
 function fillDeleteForm(id) {
   document.getElementById("deleteSpaceIdInput").value = id;
   providerStatus.textContent = `Space ID ${id} loaded into delete form.`;
