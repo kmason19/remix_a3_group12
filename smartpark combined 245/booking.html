@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartPark</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <nav>
+        <img src="logo.png" class="logo">
+        <div>
+            <a href="index.html">Home</a>
+            <a href="booking.html">Bookings</a>
+            <a href="provider.html">Provider</a>
+        </div>
+    </nav>
+
+    <header>
+        <h1>SmartPark</h1>
+        <p>Book hotel parking spaces securely using blockchain smart contracts</p>
+        <p id="walletAddress">Wallet not connected</p>
+        <button id="connectWalletBtn">Connect Wallet</button>
+    </header>
+
+    <main class="booking-page">
+
+     <section class="card create-booking-card">
+                <h2>Create Booking</h2>
+                <p>Select an available parking space and choose a booking duration</p>
+
+                <label>Selected Space</label>
+                <select id="selectedSpaceInput">
+                    <option value="1">Hotel Space A - Space ID 1</option>
+                    <option value="2">Hotel Space B - Space ID 2</option>
+                </select>
+
+                <label>Space ID</label>
+                <input id="spaceIdInput" type="number" placeholder="Enter space ID">
+                <label>Duration</label>
+                <select id="durationInput">
+                    <option value="1">1 hour</option>
+                    <option value="2">2 hours</option>
+                    <option value="4">4 hours</option>
+                    <option value="6">6 hours</option>
+                    <option value="24">24 hours</option>
+                </select>
+
+                <label>Total Amount</label>
+                <input id="totalAmountInput" type="text" placeholder="Calculated total price" readonly>
+
+                <button id="createBookingBtn">Create Booking & Pay</button>
+
+        </section>
+
+        <section class="booking-info-row">
+            <div class="card">
+                <h2>Booking Summary</h2>
+
+                <p><strong>Selected Space:</strong> <span id="summarySpace">Hotel Space A - Space ID 1</span></p>
+                <p><strong>Duration:</strong> <span id="summaryDuration">1 hour</span></p>
+                <p><strong>Price Per Hour</strong> <span id="summaryPrice"> $10</span></p>
+                <p><strong>Total Amount:</strong> <span id="summaryTotal"> $10</span></p>
+            </div>
+
+            <div class="card">
+                <h2>Transaction Status</h2>
+                <p id="transactionStatus">Status: Waiting for booking submission.</p>
+            </div>
+        </section>
+
+        <section class="card manage-booking-card">
+                <h2>Manage Booking</h2>
+                <p>Cancel or complete an existing booking using the Booking ID.</p>
+
+                <label>Booking ID</label>
+                <input id="bookingIdInput" type="number" placeholder="Enter booking ID">
+
+                <button id="completeBookingBtn">Complete Booking</button>
+                <button id="cancelBookingBtn" class="cancel-btn">Cancel Booking</button>
+        </section>
+
+        <section class="card recent-bookings-card">
+            <h2>Recent Bookings</h2>
+            <div id="recentBookingsList"></div>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+
+        //CONTRACT ABI
+        <script>
+    const contractAddress = "0x4595081A4f520D38F43039B2ae9f99A5489c86c4";
+
+    const contractABI = 
+
+    //PARKINGMANAGEMENT ABI
+    [
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "spaceId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isAvailable",
+        "type": "bool"
+      }
+    ],
+    "name": "AvailabilityUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_spaceName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_pricePerHour",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_location",
+        "type": "string"
+      }
+    ],
+    "name": "createSpace",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_spaceId",
+        "type": "uint256"
+      }
+    ],
+    "name": "deleteSpace",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_spaceId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isAvailable",
+        "type": "bool"
+      }
+    ],
+    "name": "setAvailability",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_bookingContract",
+        "type": "address"
+      }
+    ],
+    "name": "setBookingContract",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "spaceId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "spaceName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "pricePerHour",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isAvailable",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isDeleted",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "SpaceCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "spaceId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "SpaceDeleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "spaceId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "spaceName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "pricePerHour",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isAvailable",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "bool",
+        "name": "isDeleted",
+        "type": "bool"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "SpaceUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_spaceId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_spaceName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_pricePerHour",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_location",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isAvailable",
+        "type": "bool"
+      }
+    ],
+    "name": "updateSpace",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "bookingContract",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_spaceId",
+        "type": "uint256"
+      }
+    ],
+    "name": "getSpaceDetails",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "provider",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "spaceCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "spaces",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "spaceName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pricePerHour",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "location",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "isAvailable",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "isDeleted",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+];
+
+    </script>
+
+
+
+    <script src="booking.js"></script>
+    
+</body>
+
+</html>
