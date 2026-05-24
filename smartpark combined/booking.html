@@ -6,10 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SmartPark</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
-
     <nav>
         <img src="logo.png" class="logo">
         <div>
@@ -18,28 +16,20 @@
             <a href="provider.html">Provider</a>
         </div>
     </nav>
-
     <header>
         <h1>SmartPark</h1>
         <p>Book hotel parking spaces securely using blockchain smart contracts</p>
         <p id="walletAddress">Wallet not connected</p>
         <button id="connectWalletBtn">Connect Wallet</button>
     </header>
-
     <main class="booking-page">
-
      <section class="card create-booking-card">
                 <h2>Create Booking</h2>
                 <p>Select an available parking space and choose a booking duration</p>
-
                 <label>Selected Space</label>
-                <select id="selectedSpaceInput">
-                    <option value="1">Hotel Space A - Space ID 1</option>
-                    <option value="2">Hotel Space B - Space ID 2</option>
-                </select>
-
+                <input id="selectedSpaceInput" type="text" placeholder="Select a space from the homepage" readonly>
                 <label>Space ID</label>
-                <input id="spaceIdInput" type="number" placeholder="Enter space ID">
+                <input id="spaceIdInput" type="number" placeholder="Space ID" readonly>
                 <label>Duration</label>
                 <select id="durationInput">
                     <option value="1">1 hour</option>
@@ -48,56 +38,43 @@
                     <option value="6">6 hours</option>
                     <option value="24">24 hours</option>
                 </select>
-
                 <label>Total Amount</label>
                 <input id="totalAmountInput" type="text" placeholder="Calculated total price" readonly>
-
                 <button id="createBookingBtn">Create Booking & Pay</button>
-
         </section>
-
         <section class="booking-info-row">
             <div class="card">
                 <h2>Booking Summary</h2>
-
-                <p><strong>Selected Space:</strong> <span id="summarySpace">Hotel Space A - Space ID 1</span></p>
+                <p><strong>Selected Space:</strong> <span id="summarySpace">No space selected</span></p>
                 <p><strong>Duration:</strong> <span id="summaryDuration">1 hour</span></p>
-                <p><strong>Price Per Hour</strong> <span id="summaryPrice"> $10</span></p>
-                <p><strong>Total Amount:</strong> <span id="summaryTotal"> $10</span></p>
+                <p><strong>Price Per Hour</strong> <span id="summaryPrice"> $0</span></p>
+                <p><strong>Total Amount:</strong> <span id="summaryTotal"> $0</span></p>
             </div>
-
             <div class="card">
                 <h2>Transaction Status</h2>
                 <p id="transactionStatus">Status: Waiting for booking submission.</p>
             </div>
         </section>
-
         <section class="card manage-booking-card">
                 <h2>Manage Booking</h2>
                 <p>Cancel or complete an existing booking using the Booking ID.</p>
-
                 <label>Booking ID</label>
                 <input id="bookingIdInput" type="number" placeholder="Enter booking ID">
-
                 <button id="completeBookingBtn">Complete Booking</button>
                 <button id="cancelBookingBtn" class="cancel-btn">Cancel Booking</button>
         </section>
-
         <section class="card recent-bookings-card">
             <h2>Recent Bookings</h2>
             <div id="recentBookingsList"></div>
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-
         
         <script>
         //CONTRACT ABI
     const parkingContractAddress = "0x4595081A4f520D38F43039B2ae9f99A5489c86c4";
     const bookingContractAddress = "0x1905C7046C407F890b7A993dFCB01C02EFE6C4e3";
-
     const parkingContractABI = 
-
     //PARKINGMANAGEMENT ABI
     [
   {
@@ -469,7 +446,6 @@
     "type": "function"
   }
 ];
-
 const bookingContractABI = 
 [
   {
@@ -765,13 +741,10 @@ const bookingContractABI =
     "type": "function"
   }
 ];
-
     </script>
-
 
 
     <script src="booking.js"></script>
     
 </body>
-
 </html>
