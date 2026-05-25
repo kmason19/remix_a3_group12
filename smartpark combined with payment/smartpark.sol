@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+
+//PARKING MANAGEMENT AND SPACE CREATION CONTRACT
 // Contract responsible for creating, updating, cancelling and deleting spaces
 contract ParkingSpaceManagement {
+
     // The contract parking provider address
     address public provider;
     // Stores the address of the BookingAndPayment Contract
@@ -16,10 +19,13 @@ contract ParkingSpaceManagement {
          bool isDeleted; // parking space status (true = deleted/deactivated) 
          uint256 timestamp;  //time parking space was created
     }  
+
     // Mapping to store space information based on space ID
     mapping (uint256 => Space) public spaces;
+
     // Counter to keep track of the total number of sapces
     uint256 public spaceCount;
+
      // Event triggered when a new parking space is created
     event SpaceCreated(uint256 spaceId, string spaceName, uint256 pricePerHour, string location, bool isAvailable, bool isDeleted, uint256 timestamp);
     // Event triggered when a parking space is updated
@@ -29,26 +35,34 @@ contract ParkingSpaceManagement {
     // Event triggered when parking space availability is changed
     event AvailabilityUpdated(uint256 spaceId, bool isAvailable);
 
+
     // Contract constructor, executed once during deployment
     constructor() {
         // Set the contract provider to the address that deploys the contract
         provider = msg.sender;
     }
-      // Modifier to restrict access to only the contract owner
+
+
+    // Modifier to restrict access to only the contract owner (provider)
     modifier onlyProvider() {
         require(msg.sender == provider, "Only the parking space provider can execute this");
         _;
     }
-     // Modifie used to allow access to either the parking provider or the authorised booking contract
+
+    // Modifier used to allow access to either the parking provider or the authorised booking contract
     modifier onlyProviderOrBookingContract() {
         require(msg.sender == provider || msg.sender == bookingContract, "Only provider or booking contract can execute this"); 
         _;
     }
+
+
     // Function used to authorise the BookingAndPayment contract to update parking availability
     function setBookingContract(address _bookingContract) public onlyProvider {
         bookingContract = _bookingContract; // Store the authorised booking contract address
     }
-     // Function to create a new parking space
+
+
+    // Function to create a new parking space (only done by provider/owner)
     function createSpace(string memory _spaceName, uint256 _pricePerHour, string memory _location) public onlyProvider {
         // Increment spaceCount to generate a unique space ID
         spaceCount++;
@@ -59,37 +73,54 @@ contract ParkingSpaceManagement {
         // Emit an event to signify the creation of a new parking space
         emit SpaceCreated(spaceCount,  _spaceName, _pricePerHour, _location, true, false, block.timestamp);
     }
-    // Function used to update an existing parking space 
+
+
+    // Function used to update an existing parking space (only done by provider/owner)
     function updateSpace(uint256 _spaceId, string memory _spaceName, uint256 _pricePerHour, string memory _location, bool _isAvailable) public onlyProvider {
         // Validate that the parking space ID exists 
         require(_spaceId > 0 && _spaceId <= spaceCount, "Invalid Space ID");
+        //Validates parking space is not deleted
         require(!spaces[_spaceId].isDeleted, "Space has been deleted");
+
         // Update parking space details in the mapping
         spaces[_spaceId] = Space(_spaceName, _pricePerHour, _location, _isAvailable, false, block.timestamp);
+        
         // Emit event to record the update transaction
         emit SpaceUpdated(_spaceId, _spaceName, _pricePerHour, _location, _isAvailable, false, block.timestamp);
     }
-    // Function used to deactivate/delete a parking space 
+
+
+    // Function used to deactivate/delete a parking space (only done by provider/owner)
     function deleteSpace(uint256 _spaceId) public onlyProvider {
         // Validate that the parking space ID exists
         require(_spaceId > 0 && _spaceId <= spaceCount, "Invalid Space ID");
+        //Validates parking space is not already deleted
         require(!spaces[_spaceId].isDeleted, "Space has already been deleted");
+
         // Set availability to false instead of permanently deleting data
         spaces[_spaceId].isAvailable = false; 
+        //Set delete to true to indicate the space has been deleted
         spaces[_spaceId].isDeleted = true;
+
         // Emit event to record the delection/deactiviation
         emit SpaceDeleted(_spaceId, block.timestamp);
     }
+
+
     // Function used to manually update parking space availability
     function setAvailability(uint256 _spaceId, bool _isAvailable) public onlyProviderOrBookingContract {
         // Validate that the parking space ID exists
         require(_spaceId > 0 && _spaceId <= spaceCount, "Invalid Space ID");
+        //Validates parking space is not deleted
         require(!spaces[_spaceId].isDeleted, "Space has been deleted");
+
         // Update the availability status of the parking space
         spaces[_spaceId].isAvailable = _isAvailable;
+
         // Emit event to record the availability update
         emit AvailabilityUpdated(_spaceId, _isAvailable);
     }
+
 
     // Function to get details of a specific parking based on its ID (MAY NOT NEED THIS)
     function getSpaceDetails(uint256 _spaceId) public view returns (string memory, uint256, string memory, bool, bool, uint256) {
@@ -99,13 +130,13 @@ contract ParkingSpaceManagement {
         // Retrieve and return the details of the specified parking space
         Space  storage parkingSpace = spaces[_spaceId];
         return (parkingSpace.spaceName, parkingSpace.pricePerHour, parkingSpace.location, parkingSpace.isAvailable, parkingSpace.isDeleted, parkingSpace.timestamp);
-
-
     }
 
-
-
 }
+
+
+
+//BOOKING AND PAYMENT CONTRACT
 // Contract responsible for handling bookings and payment-related functionality
 contract BookingAndPayment {
     // The contract parking provider address
@@ -113,6 +144,7 @@ contract BookingAndPayment {
    
     // Reference to the deployed ParkingSpaceManagement Contract
     ParkingSpaceManagement public parkingContract;
+
     // Struct used to store booking information
     struct Booking {
         uint256 bookingId; // unique ID for each booking
@@ -125,12 +157,14 @@ contract BookingAndPayment {
         bool isCompleted; // completion status of the booking
         uint256 timestamp; // time booking was created
     }
+
     // Mapping used to store bookings based on booking ID
     mapping(uint256 => Booking) public bookings;
+
     // Counter used to track the total number of bookings
     uint256 public bookingCount; 
 
-    //records the payment amounts of completed bookings the provider can withdraw
+    //records the total payment amounts of completed bookings the provider can withdraw
     uint256 public providerPaymentsreceived;
 
     // Event triggered when a booking is successfully created
@@ -140,16 +174,16 @@ contract BookingAndPayment {
     // Event triggered when a booking is completed
     event BookingCompleted(uint256 bookingId, uint256 spaceId, address user);
 
+
     // Constructor used to connect the BookingAndPayment contract to the ParkingSpaceManagement contract
     constructor(address _parkingContractAddress){
         // Store reference to deployed ParkingSpaceManagement contract
         parkingContract = ParkingSpaceManagement(_parkingContractAddress);
-        // allows for the person who delpoys the contact to recieve ether
+        // allows for the person who delpoys the contact to recieve ether later on
         provider = msg.sender;
     }
 
   
-     
     // Function used to create new parking booking
     // Retrieve parking space details from the ParkingSpaceManagement contract
     function createBooking(uint256 _spaceId, uint256 _durationHours) public payable{
@@ -173,57 +207,73 @@ contract BookingAndPayment {
     }
 
 
+   // Modifer to restrict access to only the provider/owner
    modifier onlyProvider() {
     require(msg.sender == provider, "Only provider can execute this");
     _;
    }
 
-
+   //Event triggered when payment is withdrawn by provider
    event PaymentWithdrawn(address provider, uint256 totalAmount);
 
-    function paymentsWithdraw() public onlyProvider {
+   //Function that allows provider/owner to recieve/withdraw total payment amount of completed bookings
+   function paymentsWithdraw() public onlyProvider {
+        // Validates if there are payments to withdraw
         require(providerPaymentsreceived > 0, "No funds available" );
 
+        // have eth amount provider will recieve equal to the total payment amount of completed bookings
         uint256 amount = providerPaymentsreceived;
+        // Set variable that stores total payment amount of completed bookings back to 0 as all funds are withdrawn
         providerPaymentsreceived = 0;
 
+        //Sends payment amount to the provider wallet
         (bool sent, ) = payable(provider).call{value: amount}("");
         require(sent, "Transfer failed");
 
+    //Emit payment withdraw
         emit PaymentWithdrawn(provider, amount);
     }
 
+
+    //Allows users to view the total payment amount of all paid bookings the BookingandPayment contract holds
     function getContractBalance() public view returns (uint256) {
+    //returns total payment amount
     return address(this).balance;
     }
 
 
-
     // Function used to cancel an existing booking
     function cancelBooking(uint256 _bookingId) public {
+        // Validates a correct booking ID is submitted
         require(_bookingId > 0 && _bookingId <= bookingCount, "Invalid Booking ID");
-        // Retrieve booking infnormation from the bookings mapping
+
+        // Retrieve booking information from the bookings mapping
         Booking storage booking = bookings[_bookingId];
+
+        //Validation to ensure only the user who placed the booking can cancel it
         require(msg.sender == booking.user, "Only the booking user can cancel this booking");
+        //Validation to prevent already cancelled bookings from being cancelled again 
         require(!booking.isCancelled, "Booking already cancelled");
+        //Validation to prevent completed bookings from being cancelled 
         require(!booking.isCompleted, "Booking already completed");
+        //Validation to ensure bookingandpayment smart contract has sufficient to refund payment back to user who cancels the booking
         require(address(this).balance >= booking.totalAmount, "Contract balance is inufficient for refund");
         
-        // Update booking cancellation status
+        // Update booking cancellation status to true as booking is cancelled
         booking.isCancelled = true; 
-        //Update booking paid status to false
+        //Update booking paid status to false as payment is refunded
          booking.isPaid = false;
 
-        // Make the parking space available again after cancellation
+        // Make the parking space available again after cancellation by setting availability back to true
         parkingContract.setAvailability(booking.spaceId, true);
 
+        //Refunds booking payment back to user who placed booking
         (bool refunded, ) = payable(booking.user).call{value: booking.totalAmount}("");
         require(refunded, "Refund failed");
 
         // Emit event to record the booking cancel transaction
         emit BookingCancelled(_bookingId, booking.spaceId, msg.sender);
     }
-
 
 
     // Function used to complete a booking after parking usage has finished
@@ -239,7 +289,7 @@ contract BookingAndPayment {
         // Update booking completion status
         booking.isCompleted = true;
 
-        //adds the total amount of booking to the payment the provider receives and can withdraw
+        //adds the total amount of booking to the payment the provider can receive and withdraw
         providerPaymentsreceived += booking.totalAmount;
 
 
