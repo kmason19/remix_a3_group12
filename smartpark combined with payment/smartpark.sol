@@ -9,7 +9,8 @@ contract ParkingSpaceManagement {
     address public provider;
     // Stores the address of the BookingAndPayment Contract
     address public bookingContract;
-    
+
+    //PARKING SPACE DETAILS
     // Struct to define the structure of a parking space details
     struct Space {
          string spaceName; //name of parking space for identification
@@ -56,12 +57,14 @@ contract ParkingSpaceManagement {
     }
 
 
+    //SET BOOKING CONTRACT
     // Function used to authorise the BookingAndPayment contract to update parking availability
     function setBookingContract(address _bookingContract) public onlyProvider {
         bookingContract = _bookingContract; // Store the authorised booking contract address
     }
 
 
+    //CREATE NEW PARKING SPACE
     // Function to create a new parking space (only done by provider/owner)
     function createSpace(string memory _spaceName, uint256 _pricePerHour, string memory _location) public onlyProvider {
         // Increment spaceCount to generate a unique space ID
@@ -75,6 +78,7 @@ contract ParkingSpaceManagement {
     }
 
 
+    //UPDATE PARKING SPACE
     // Function used to update an existing parking space (only done by provider/owner)
     function updateSpace(uint256 _spaceId, string memory _spaceName, uint256 _pricePerHour, string memory _location, bool _isAvailable) public onlyProvider {
         // Validate that the parking space ID exists 
@@ -90,6 +94,7 @@ contract ParkingSpaceManagement {
     }
 
 
+    //DELETE PARKING SPACE
     // Function used to deactivate/delete a parking space (only done by provider/owner)
     function deleteSpace(uint256 _spaceId) public onlyProvider {
         // Validate that the parking space ID exists
@@ -107,6 +112,7 @@ contract ParkingSpaceManagement {
     }
 
 
+    //UPDATE AVAILABILITY OF PARKING SPACE
     // Function used to manually update parking space availability
     function setAvailability(uint256 _spaceId, bool _isAvailable) public onlyProviderOrBookingContract {
         // Validate that the parking space ID exists
@@ -122,6 +128,7 @@ contract ParkingSpaceManagement {
     }
 
 
+    // GET PARKING SPACE DETAILS
     // Function to get details of a specific parking based on its ID (MAY NOT NEED THIS)
     function getSpaceDetails(uint256 _spaceId) public view returns (string memory, uint256, string memory, bool, bool, uint256) {
         // Check if the provided product ID is valid
@@ -145,6 +152,7 @@ contract BookingAndPayment {
     // Reference to the deployed ParkingSpaceManagement Contract
     ParkingSpaceManagement public parkingContract;
 
+    // BOOKING AND PAYMENT DETAILS
     // Struct used to store booking information
     struct Booking {
         uint256 bookingId; // unique ID for each booking
@@ -183,25 +191,33 @@ contract BookingAndPayment {
         provider = msg.sender;
     }
 
-  
-    // Function used to create new parking booking
+
+    // CREATE NEW BOOKING
+    // Function used to create new parking booking (it is marked as payable to allow users to pay total booking amount)
     // Retrieve parking space details from the ParkingSpaceManagement contract
     function createBooking(uint256 _spaceId, uint256 _durationHours) public payable{
         ( , uint256 pricePerHour, , bool isAvailable, bool isDeleted, ) = parkingContract.getSpaceDetails(_spaceId);
+        
         // Validate selected booking duration
         require(_durationHours == 1 || _durationHours == 2 || _durationHours == 4 || _durationHours == 6 || _durationHours == 24, "Invalid duration option");
-        // Calculate total booking cost based on hourly price and selected duration
+        // Calculate total booking cost based on hourly price and selected duration by multiplying them together
         uint256 totalAmount = pricePerHour * _durationHours;
-        require(msg.value == totalAmount, "Incorrect payment amount");
 
+        require(msg.value == totalAmount, "Incorrect payment amount");
+        // Validates parking space is available to allow for booking
         require(isAvailable, "Parking Space is not available");
+        // Validates parking space is not deleted to allow for booking
         require(!isDeleted, "Parking Space has been deleted");
+
         // Increment booking count to generate a unique booking ID
         bookingCount++;
+
         // Store the booking information in the bookings mapping
         bookings[bookingCount] = Booking(bookingCount, _spaceId, msg.sender, _durationHours, totalAmount, true, false, false, block.timestamp);
-        // Automatically mark the park space as unavailable after booking
+        
+        // Automatically mark the park space as unavailable after booking by changing availability to false
         parkingContract.setAvailability(_spaceId, false);
+
         // Emit event to record the booking transaction
         emit BookingCreated(bookingCount, _spaceId, msg.sender, _durationHours, totalAmount, block.timestamp);
     }
@@ -216,6 +232,8 @@ contract BookingAndPayment {
    //Event triggered when payment is withdrawn by provider
    event PaymentWithdrawn(address provider, uint256 totalAmount);
 
+
+   //WITHDRAW/RECIEVE PAYMENTS (FOR PROVIDERS)
    //Function that allows provider/owner to recieve/withdraw total payment amount of completed bookings
    function paymentsWithdraw() public onlyProvider {
         // Validates if there are payments to withdraw
@@ -230,11 +248,12 @@ contract BookingAndPayment {
         (bool sent, ) = payable(provider).call{value: amount}("");
         require(sent, "Transfer failed");
 
-    //Emit payment withdraw
+        //Emit payment withdraw
         emit PaymentWithdrawn(provider, amount);
     }
 
 
+    // VIEW PAYMENT AMOUNT IN SMART CONTRACT
     //Allows users to view the total payment amount of all paid bookings the BookingandPayment contract holds
     function getContractBalance() public view returns (uint256) {
     //returns total payment amount
@@ -242,6 +261,7 @@ contract BookingAndPayment {
     }
 
 
+    //CANCEL BOOKING
     // Function used to cancel an existing booking
     function cancelBooking(uint256 _bookingId) public {
         // Validates a correct booking ID is submitted
@@ -276,33 +296,47 @@ contract BookingAndPayment {
     }
 
 
+    // COMPLETE BOOKING
     // Function used to complete a booking after parking usage has finished
     function completeBooking(uint256 _bookingId) public {
+        // Validates a correct booking ID is submitted
         require(_bookingId > 0 && _bookingId <= bookingCount, "Invalid Booking ID");
 
+        // Retrieve booking information from the bookings mapping
         Booking storage booking = bookings[_bookingId];
 
+        //Validation to ensure only the user who placed the booking can complete it
         require(msg.sender == booking.user, "Only the booking user can complete this booking");
+        //Validation to prevent cancelled bookings from being completed
         require(!booking.isCancelled, "Booking was cancelled");
+        //Validation to prevent already completed bookings from being completed again 
         require(!booking.isCompleted, "Booking already completed");
 
-        // Update booking completion status
+        // Update booking completion status to true as booking is completed
         booking.isCompleted = true;
 
         //adds the total amount of booking to the payment the provider can receive and withdraw
         providerPaymentsreceived += booking.totalAmount;
 
-
-        // Make the parking space available again after booking completion
+        // Make the parking space available again after booking completion by setting availability to true
         parkingContract.setAvailability(booking.spaceId, true);
+
         // Emit event to record the booking completion transaction
         emit BookingCompleted(_bookingId, booking.spaceId, msg.sender);
     }
+
+
+    // GET BOOKING DETAILS
     // Function used to retrive details of a specific booking
     function getBookingDetails(uint256 _bookingId) public view returns (uint256, uint256, address, uint256, uint256, bool, bool, bool, uint256)
     {
+        // Validates a correct booking ID is submitted
         require(_bookingId > 0 && _bookingId <= bookingCount, "Invalid Booking ID");
+        
+        // Retrieve booking information from the bookings mapping
         Booking storage booking = bookings[_bookingId];
+
+        //Returns relevant booking information of selected booking ID
         return (booking.bookingId, booking.spaceId, booking.user, booking.durationHours, booking.totalAmount, booking.isPaid, booking.isCancelled, booking.isCompleted, booking.timestamp);
     }
 }
