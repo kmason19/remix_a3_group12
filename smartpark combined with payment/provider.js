@@ -122,10 +122,10 @@ document.getElementById("withdrawPaymentBtn").addEventListener("click", async ()
 async function loadPaymentMessage() {
   if (!bookingContract) return;
 
-  const contractBalance = await bookingContract.getContractBalance();
+  const completedPaymentsAmount = await bookingContract.providerPaymentsreceived();
 
   document.getElementById("loadPaymentMessage").textContent =
-    ethers.utils.formatEther(contractBalance) + " ETH";
+    ethers.utils.formatEther(completedPaymentsAmount) + " ETH";
 
 
 }
