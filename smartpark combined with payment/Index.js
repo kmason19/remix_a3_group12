@@ -92,6 +92,7 @@ async function renderHomeSpaces() {
     if (!isAvailable) continue;
 
     
+
     parkingSpacesList.innerHTML += `
       <div class="parking-card">
         <span class="status ${isAvailable ? "available" : "booked"}">
@@ -101,7 +102,7 @@ async function renderHomeSpaces() {
         <h3>${spaceName}</h3>
         <p><strong>Space ID: </strong> ${i}</p>
 
-        <p><strong>Price:</strong> $${pricePerHour.toString()}/hour</p>
+        <p><strong>Price:</strong> ${ethers.utils.formatEther(pricePerHour)} ETH/hour</p>
         <p><strong>Location:</strong> ${location}</p>
 
         ${

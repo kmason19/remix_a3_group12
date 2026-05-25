@@ -1,7 +1,4 @@
-// ================================
 // METAMASK WALLET AND CONTRACT SETUP
-// ================================
-
 // Stores the blockchain provider connection from MetaMask
 let provider;
 
@@ -21,10 +18,8 @@ let connectedAccount;
 let selectedPricePerHour = 0;
 
 
-// ================================
-// HTML ELEMENT REFERENCES
-// ================================
 
+// HTML ELEMENT REFERENCES
 const walletAddress = document.getElementById("walletAddress");
 const connectWalletBtn = document.getElementById("connectWalletBtn");
 const transactionStatus = document.getElementById("transactionStatus");
@@ -40,10 +35,8 @@ const summaryPrice = document.getElementById("summaryPrice");
 const summaryTotal = document.getElementById("summaryTotal");
 
 
-// ================================
-// SETUP SMART CONTRACT CONNECTIONS
-// ================================
 
+// SETUP SMART CONTRACT CONNECTIONS
 async function setupContracts() {
   provider = new ethers.providers.Web3Provider(window.ethereum);
   signer = provider.getSigner();
@@ -62,10 +55,8 @@ async function setupContracts() {
 }
 
 
-// ================================
-// CONNECT WALLET
-// ================================
 
+// CONNECT WALLET
 async function connectWallet() {
   if (!window.ethereum) {
     transactionStatus.textContent = "MetaMask is not installed.";
@@ -94,10 +85,8 @@ async function connectWallet() {
 }
 
 
-// ================================
-// CHECK IF WALLET IS ALREADY CONNECTED
-// ================================
 
+// CHECK IF WALLET IS ALREADY CONNECTED
 async function checkAlreadyConnected() {
   if (!window.ethereum) return;
 
@@ -122,10 +111,8 @@ connectWalletBtn.addEventListener("click", connectWallet);
 window.addEventListener("load", checkAlreadyConnected);
 
 
-// ================================
-// LOAD SELECTED PARKING SPACE
-// ================================
 
+// LOAD SELECTED PARKING SPACE
 async function loadSelectedSpace() {
   if (!parkingContract) return;
 
@@ -165,30 +152,26 @@ async function loadSelectedSpace() {
 }
 
 
-// ================================
-// UPDATE BOOKING SUMMARY
-// ================================
 
+// UPDATE BOOKING SUMMARY
 function updateBookingSummary() {
   if (!spaceIdInput.value || !selectedPricePerHour) return;
 
   const duration = Number(durationInput.value);
   const total = selectedPricePerHour.mul(duration);
 
-  totalAmountInput.value = `$${total.toString()}`;
+  totalAmountInput.value = `${ethers.utils.formatEther(total)} ETH`;
   summarySpace.textContent = selectedSpaceInput.value;
   summaryDuration.textContent = `${duration} hour${duration > 1 ? "s" : ""}`;
-  summaryPrice.textContent = `$${selectedPricePerHour.toString()}`;
-  summaryTotal.textContent = `$${total.toString()}`;
+  summaryPrice.textContent = `${ethers.utils.formatEther(selectedPricePerHour)} ETH`;
+  summaryTotal.textContent = `${ethers.utils.formatEther(total)} ETH`;
 }
 
 durationInput.addEventListener("change", updateBookingSummary);
 
 
-// ================================
-// CREATE BOOKING AND PAY
-// ================================
 
+// CREATE BOOKING AND PAY
 document.getElementById("createBookingBtn").addEventListener("click", async () => {
   if (!bookingContract) {
     transactionStatus.textContent = "Please connect your wallet first.";
@@ -228,10 +211,8 @@ document.getElementById("createBookingBtn").addEventListener("click", async () =
 });
 
 
-// ================================
-// CANCEL BOOKING
-// ================================
 
+// CANCEL BOOKING
 document.getElementById("cancelBookingBtn").addEventListener("click", async () => {
   if (!bookingContract) {
     transactionStatus.textContent = "Please connect your wallet first.";
@@ -265,10 +246,7 @@ document.getElementById("cancelBookingBtn").addEventListener("click", async () =
 });
 
 
-// ================================
 // COMPLETE BOOKING
-// ================================
-
 document.getElementById("completeBookingBtn").addEventListener("click", async () => {
   if (!bookingContract) {
     transactionStatus.textContent = "Please connect your wallet first.";
@@ -302,10 +280,8 @@ document.getElementById("completeBookingBtn").addEventListener("click", async ()
 });
 
 
-// ================================
-// LOAD RECENT BOOKINGS AND YOUR BOOKINGS
-// ================================
 
+// LOAD RECENT BOOKINGS AND YOUR BOOKINGS
 async function loadRecentBookings() {
   if (!bookingContract) return;
 
@@ -377,13 +353,13 @@ async function loadRecentBookings() {
           <p><strong>Space ID:</strong> ${spaceId.toString()}</p>
           <p><strong>User:</strong> ${user}</p>
           <p><strong>Duration:</strong> ${durationHours.toString()} hour${durationHours.toNumber() > 1 ? "s" : ""}</p>
-          <p><strong>Total:</strong> $${totalAmount.toString()}</p>
+          <p><strong>Total:</strong> ${ethers.utils.formatEther(totalAmount)} ETH</p>
           <p><strong>Status:</strong> ${status}</p>
           <p><strong>Booked At:</strong> ${formattedTime}</p>
         </div>
       `;
     }
-  }
+  } 
 
   if (!hasYourBookings) {
     yourList.innerHTML = "<p>No bookings found for this wallet.</p>";

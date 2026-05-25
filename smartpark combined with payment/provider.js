@@ -291,7 +291,7 @@ async function loadManagedSpaces() {
         <h3>${spaceName}</h3>
 
         <p><strong>Space ID:</strong> ${i}</p>
-        <p><strong>Price:</strong> $${pricePerHour.toString()}/hour</p>
+        <p><strong>Price:</strong> ${ethers.utils.formatEther(pricePerHour)} ETH/hour</p>
         <p><strong>Location:</strong> ${location}</p>
         <p><strong>Created At:</strong> ${formattedTime}</p>
 
@@ -372,9 +372,9 @@ async function loadProviderBookings() {
         <p><strong>Space Name:</strong> ${spaceName}</p>
         <p><strong>Location:</strong> ${location}</p>
         <p><strong>User:</strong> ${user}</p>
-        <p><strong>Price Per Hour:</strong> $${pricePerHour.toString()}</p>
+        <p><strong>Price Per Hour:</strong> ${ethers.utils.formatEther(pricePerHour)} ETH</p>
         <p><strong>Duration:</strong> ${durationHours.toString()} hour${durationHours.toNumber() > 1 ? "s" : ""}</p>
-        <p><strong>Total Amount:</strong> $${totalAmount.toString()}</p>
+        <p><strong>Total Amount:</strong> ${ethers.utils.formatEther(totalAmount)} ETH</p>
         <p><strong>Payment Status:</strong> ${isPaid ? "Paid" : "Not Paid"}</p>
         <p><strong>Booking Status:</strong> ${status}</p>
         <p><strong>Booked At:</strong> ${formattedTime}</p>
