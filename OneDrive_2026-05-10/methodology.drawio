@@ -1,0 +1,112 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="AtOybvUfRuawXcsIWXPI">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="YkUWbmyQMRF79T2NH30R-7" edge="1" parent="1" source="YkUWbmyQMRF79T2NH30R-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="YkUWbmyQMRF79T2NH30R-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-1" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;gradientColor=none;dashed=1;startSize=23;" value="Phase (ii) Smart Contract Dev" vertex="1">
+          <mxGeometry height="190" width="300" x="210" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-16" parent="YkUWbmyQMRF79T2NH30R-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Identify Smart Contracts" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-17" parent="YkUWbmyQMRF79T2NH30R-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Define Data Structures" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-18" parent="YkUWbmyQMRF79T2NH30R-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Define Contract Functions" vertex="1">
+          <mxGeometry height="40" width="110" x="160" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-19" parent="YkUWbmyQMRF79T2NH30R-1" style="rounded=1;whiteSpace=wrap;html=1;" value="Add Access Constraints" vertex="1">
+          <mxGeometry height="40" width="110" x="160" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-20" parent="YkUWbmyQMRF79T2NH30R-1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Tools: Solidity, Remix IDE, GitHub" vertex="1">
+          <mxGeometry height="30" width="260" x="20" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-9" edge="1" parent="1" source="YkUWbmyQMRF79T2NH30R-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="YkUWbmyQMRF79T2NH30R-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-2" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;startSize=23;" value="Phase (iii) BPMN" vertex="1">
+          <mxGeometry height="190" width="250" x="560" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-21" parent="YkUWbmyQMRF79T2NH30R-2" style="rounded=1;whiteSpace=wrap;html=1;" value="Identify Pools from Stakeholders" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-22" parent="YkUWbmyQMRF79T2NH30R-2" style="rounded=1;whiteSpace=wrap;html=1;" value="Map Main Business Process" vertex="1">
+          <mxGeometry height="40" width="110" x="130" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-23" parent="YkUWbmyQMRF79T2NH30R-2" style="rounded=1;whiteSpace=wrap;html=1;" value="Add Activities and Decisions" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-24" parent="YkUWbmyQMRF79T2NH30R-2" style="rounded=1;whiteSpace=wrap;html=1;" value="Add Message Flows between Pools" vertex="1">
+          <mxGeometry height="40" width="110" x="130" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-25" parent="YkUWbmyQMRF79T2NH30R-2" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Tools: Signavio" vertex="1">
+          <mxGeometry height="30" width="100" x="10" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-6" edge="1" parent="1" source="YkUWbmyQMRF79T2NH30R-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" target="YkUWbmyQMRF79T2NH30R-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-3" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;dashed=1;startSize=23;" value="Phase (i) Research &amp;amp; Design" vertex="1">
+          <mxGeometry height="190" width="300" x="210" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-11" parent="YkUWbmyQMRF79T2NH30R-3" style="rounded=1;whiteSpace=wrap;html=1;" value="Problem Identification" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-12" parent="YkUWbmyQMRF79T2NH30R-3" style="rounded=1;whiteSpace=wrap;html=1;" value="Stakeholder Analysis" vertex="1">
+          <mxGeometry height="40" width="120" x="160" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-13" parent="YkUWbmyQMRF79T2NH30R-3" style="rounded=1;whiteSpace=wrap;html=1;" value="Requirements Planning" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-14" parent="YkUWbmyQMRF79T2NH30R-3" style="rounded=1;whiteSpace=wrap;html=1;" value="Architecture Design" vertex="1">
+          <mxGeometry height="40" width="120" x="160" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-15" parent="YkUWbmyQMRF79T2NH30R-3" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Tools: Research sources, Lucidchart, Assessment 1 proposal" vertex="1">
+          <mxGeometry height="30" width="260" x="20" y="150" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-10" edge="1" parent="1" source="YkUWbmyQMRF79T2NH30R-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="YkUWbmyQMRF79T2NH30R-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-4" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;dashed=1;startSize=23;" value="Phase (iv) Frontend and Deployment" vertex="1">
+          <mxGeometry height="190" width="290" x="540" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-26" parent="YkUWbmyQMRF79T2NH30R-4" style="rounded=1;whiteSpace=wrap;html=1;" value="Build Web Interface" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-27" parent="YkUWbmyQMRF79T2NH30R-4" style="rounded=1;whiteSpace=wrap;html=1;" value="Connect Frontend to Contracts" vertex="1">
+          <mxGeometry height="40" width="110" x="150" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-28" parent="YkUWbmyQMRF79T2NH30R-4" style="rounded=1;whiteSpace=wrap;html=1;" value="Deploy Smart Contracts" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-29" parent="YkUWbmyQMRF79T2NH30R-4" style="rounded=1;whiteSpace=wrap;html=1;" value="Test User Interactions" vertex="1">
+          <mxGeometry height="40" width="110" x="150" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-30" parent="YkUWbmyQMRF79T2NH30R-4" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Tools: HTML, CSS, JavaScript, Remix, MetaMask/Ganache" vertex="1">
+          <mxGeometry height="30" width="250" x="20" y="140" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-5" parent="1" style="swimlane;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;startSize=23;fontColor=#333333;" value="Phase (v) Verification Evaluation" vertex="1">
+          <mxGeometry height="190" width="280" x="880" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-31" parent="YkUWbmyQMRF79T2NH30R-5" style="rounded=1;whiteSpace=wrap;html=1;" value="Test Contract Functions" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-32" parent="YkUWbmyQMRF79T2NH30R-5" style="rounded=1;whiteSpace=wrap;html=1;" value="Check Transaction Outputs" vertex="1">
+          <mxGeometry height="40" width="110" x="150" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-33" parent="YkUWbmyQMRF79T2NH30R-5" style="rounded=1;whiteSpace=wrap;html=1;" value="Validates Business Logic" vertex="1">
+          <mxGeometry height="40" width="110" x="10" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-34" parent="YkUWbmyQMRF79T2NH30R-5" style="rounded=1;whiteSpace=wrap;html=1;" value="Review Limitations and Improvements" vertex="1">
+          <mxGeometry height="40" width="110" x="150" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="YkUWbmyQMRF79T2NH30R-35" parent="YkUWbmyQMRF79T2NH30R-5" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Tools: Remix Testing, GitHub, Demo Testing" vertex="1">
+          <mxGeometry height="30" width="260" x="10" y="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
