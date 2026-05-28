@@ -1,3 +1,5 @@
+Copy of ABI for BookingAndPayment smart contract
+
 [
   {
     "inputs": [
