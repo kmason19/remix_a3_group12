@@ -16,6 +16,8 @@ Creates, updates, and deletes parking spaces and receives payment from bookings 
 ### Parking User 
 Select spaces, create bookings, complete or delete bookings and view bookings for parking spaces through blockchain-based transactions within both the home and bookings page. 
 
+## Link to Github Repository 
+https://github.com/kmason19/remix_a3_group12.git
 
 ## How to Deploy the Project 
 1. Open Remix IDE
