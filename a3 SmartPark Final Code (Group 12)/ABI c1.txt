@@ -1,3 +1,5 @@
+Copy of ABI for ParkManagement smart contract
+
 [
   {
     "inputs": [],
