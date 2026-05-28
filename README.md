@@ -29,8 +29,11 @@ https://github.com/kmason19/remix_a3_group12.git
 7. Select the setBookingContract function in the ParkingSpaceManagement contract and paste the BookingAndPayment contract address into the function's input box, then transact (confirm through metamask)
 8. The address called within the bookingContract function in the ParkingSpaceManagement contract should match the deployed BookingAndPayment contract address
 9. The address called within the parkingContract function in the BookingAndPayment contract should match the address of the deployed ParkingSpaceManagement contract
-10. Open the lite-server for the application to open up a local host
-11. Press the connect wallet button under the SmartPark title on the home page of the application to ensure wallet is connected
+10. Copy the address of the ParkingSpaceManagement contract and paste it into the index, booking and provider HTML pages. Within these pages paste the address within these quotation marks of this line of code: const parkingContractAddress = " "; or this line: const contractAddress = " ";
+11. Copy the address of the BookingAndPayment contract and paste it in the booking and provider HTML pages.
+Within these pages paste the address within these quotation marks of this line of code: const bookingContractAddress = " ";
+13. Open the lite-server for the application to open up a local host
+14. Press the connect wallet button under the SmartPark title on the home page of the application to ensure wallet is connected
 
  
 ## Features and Functionalities of Application
@@ -109,5 +112,5 @@ Alicia helped to set up the wallet connects on the booking and provider pages, a
 
 
 ## License 
-This project is developed for educational use
+This project is developed for educational use for IFB452.
 
