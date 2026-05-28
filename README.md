@@ -34,14 +34,15 @@ https://github.com/kmason19/remix_a3_group12.git
 
  
 ## Features and Functionalities of Application
+- Connect MetaMask Wallet to perform functions on inidividual accounts (correct connection should be checked when switching to a new page)
 - Create new parking spaces (provider page) - only provider can do this
 - Update parking space information (provider page) - only provider can do this
 - Delete/deactivate parking spaces (provider page) - only provider can do this
 - View created parking spaces (provider page) 
 - View all created bookings (provider page)
-- Retrieve payment from completed bookings (provider page) - only provider can do this
+- View total amount and retrieve payment from completed bookings (provider page) - only provider can do this - may need to refresh page to see new withdrawal amount after payment is withdrawn/retrieved 
 - View available parking spaces (home/index page) - viewable by anyone
-- Create parking bookings and pay for bookings (bookings page)
+- Create parking bookings and pay for bookings (bookings page) - trigger booking creation by pressing the book button of the available parking space you want to book within the home page (automatically takes you to booking page afterwards)
 - View booking summary when creating the booking (bookings page) - viewable as booking details are inputted into the booking creation section
 - Complete bookings (done after the user is done with the parking space and allows the money from the booking to be given to the provider) or cancel (allows money to be refunded back to the user if the booking is no longer needed) bookings under manage bookings (bookings page)
 - View your bookings (bookings page) - only view the bookings made by the connected wallet account
