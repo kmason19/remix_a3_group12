@@ -19,23 +19,32 @@
     </div>
   </nav>
 
+  <!--Wallect connection --> 
   <header>
     <h1>SmartPark</h1>
     <p>Book hotel parking spaces securely using blockchain smart contracts</p>
+     <!--Wallect address -->
     <p id="walletAddress">Wallet not connected</p>
+    <!-- button to connect wallet -->
     <button id="connectWalletBtn">Connect Wallet</button>
   </header>
 
   <main>
+
+    <!-- section that displays available parking spaces as separate cards -->
     <section class="section-title">
+      <!-- title of the available spaces sections-->
       <h2>Available Parking Spaces</h2>
       <p>Select an available parking space and create a booking.</p>
     </section>
 
+    <!-- displays  list of available parking spaces in a grid formation -->
     <section class="parking-grid" id="parkingSpacesList"></section>
 
+    <!-- Display for transaction status-->
     <section class="card status-box">
       <h2>Transaction Status</h2>
+      <!-- initial message in transaction status section-->
       <p id="homestatus">No transaction submitted yet.</p>
     </section>
   </main>
@@ -43,8 +52,10 @@
       <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
 
       <script>
+    // address of deployed ParkManagement smart contract from remix
     const contractAddress = "0xcDa19750026550dBD8dc6497C90594aA014FD50E";
 
+    // ABI of ParkManagement smart contract
     const contractABI = 
     [
   {
@@ -418,7 +429,7 @@
 ];
     </script>
 
-    
+      // link to Index javascript document
       <script src="Index.js"></script>
 
 
