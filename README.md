@@ -4,8 +4,8 @@
 SmartPark is a blockchain-based parking management system designed for hotel environments. The application allows parking space providers to manage parking spaces while enabling parking users to search, book, and pay for parking spaces through blockchain smart contracts. The system improves transparency, security and trust by recording booking and payment transactions on a decentralised blockchain network. 
 
 ## Group Members 
-- Kiara Mason
-- Alicia Larme
+- Kiara Mason (n11448733)
+- Alicia Larme (n11447401)
   
 
 ## Stakeholders 
