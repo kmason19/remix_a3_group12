@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!--Navbar with logo and links to other pages (home, booking and provider)-->
     <nav>
         <img src="logo.png" class="logo">
         <div>
@@ -16,73 +17,110 @@
             <a href="provider.html">Provider</a>
         </div>
     </nav>
+
+    <!--Wallect connection --> 
     <header>
         <h1>SmartPark</h1>
         <p>Book hotel parking spaces securely using blockchain smart contracts</p>
+        <!--Wallect address -->
         <p id="walletAddress">Wallet not connected</p>
+        <!-- button to connect wallet -->
         <button id="connectWalletBtn">Connect Wallet</button>
     </header>
+
+    <!-- Main booking page contents -->
     <main class="booking-page">
+
+    <!-- Create booking section where users enter in booking info-->
      <section class="card create-booking-card">
                 <h2>Create Booking</h2>
                 <p>Select an available parking space and choose a booking duration</p>
                 <label>Selected Space</label>
+                <!-- input for booking ID (automatically fills out)-->
                 <input id="selectedSpaceInput" type="text" placeholder="Select a space from the homepage" readonly>
                 <label>Space ID</label>
                 <input id="spaceIdInput" type="number" placeholder="Space ID" readonly>
+                 <!-- select duration time of booking-->
                 <label>Duration</label>
                 <select id="durationInput">
+                    <!-- duration time options -->
                     <option value="1">1 hour</option>
                     <option value="2">2 hours</option>
                     <option value="4">4 hours</option>
                     <option value="6">6 hours</option>
                     <option value="24">24 hours</option>
                 </select>
+                <!-- Total booking cost calculation -->
                 <label>Total Amount</label>
                 <input id="totalAmountInput" type="text" placeholder="Calculated total price" readonly>
+                <!-- button that creates booking -->
                 <button id="createBookingBtn">Create Booking & Pay</button>
         </section>
+
+        
+        <!-- Booking summary section -->
         <section class="booking-info-row">
             <div class="card">
                 <h2>Booking Summary</h2>
+                <!-- displays ID of booking-->
                 <p><strong>Selected Space:</strong> <span id="summarySpace">No space selected</span></p>
+                <!-- displays duration time of booking-->
                 <p><strong>Duration:</strong> <span id="summaryDuration">1 hour</span></p>
+                <!-- displays cost of booking per hour-->
                 <p><strong>Price Per Hour</strong> <span id="summaryPrice"> $0</span></p>
+                <!-- displays total cost of booking-->
                 <p><strong>Total Amount:</strong> <span id="summaryTotal"> $0</span></p>
             </div>
+
+            <!-- section that displays transaction status-->
             <div class="card">
                 <h2>Transaction Status</h2>
+                <!-- transaction message-->
                 <p id="transactionStatus">Status: Waiting for booking submission.</p>
             </div>
         </section>
+        
+
+        <!-- Section where people complete or cancel bookings -->
         <section class="card manage-booking-card">
                 <h2>Manage Booking</h2>
                 <p>Cancel or complete an existing booking using the Booking ID.</p>
+                <!-- Input for the ID of the booking the user wishes to complete or delete -->
                 <label>Booking ID</label>
                 <input id="bookingIdInput" type="number" placeholder="Enter booking ID">
+                <!-- Complete booking button-->
                 <button id="completeBookingBtn">Complete Booking</button>
+                <!-- Cancel booking button -->
                 <button id="cancelBookingBtn" class="cancel-btn">Cancel Booking</button>
         </section>
 
+        <!-- Section displaying a list of your bookings-->
         <section class="card your-bookings-card">
           <h2>Your Bookings</h2>
           <p>View bookings created by your connected wallet.</p>
+          <!-- list of users' bookings -->
           <div id="yourBookingsList"></div>
         </section>
 
+        <!-- Section showing every present and past booking, including the users and everyone else's -->
         <section class="card recent-bookings-card">
             <h2>Recent Bookings</h2>
+            <!-- list of bookings -->
             <div id="recentBookingsList"></div>
         </section>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
         
         <script>
-        //CONTRACT ABI
+    // address of deployed ParkManagement smart contract from remix
     const parkingContractAddress = "0xcDa19750026550dBD8dc6497C90594aA014FD50E";
+
+    // address of deployed BookingAndPayment smart contract from remix
     const bookingContractAddress = "0x84023C13d97AAEf3D8f8970169c0F26cc87Fa544";
+
+    // ABI of ParkManagement smart contract
     const parkingContractABI = 
-    //PARKINGMANAGEMENT ABI
+    
     [
   {
     "inputs": [],
@@ -453,6 +491,9 @@
     "type": "function"
   }
 ];
+
+
+// ABI of BookingAndPayment smart contract
 const bookingContractABI = 
 [
   {
@@ -815,7 +856,7 @@ const bookingContractABI =
 ];
     </script>
 
-
+     // link to booking javascript document
     <script src="booking.js"></script>
     
 </body>
