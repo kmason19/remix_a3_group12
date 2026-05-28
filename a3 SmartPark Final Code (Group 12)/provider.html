@@ -10,6 +10,7 @@
 </head>
 <body>
 
+    <!--Navbar with logo and links to other pages (home, booking and provider)-->
     <nav>
         <img src="logo.png" class="logo">
         <div>
@@ -19,104 +20,140 @@
         </div>
     </nav>
 
+    <!--Wallect connection --> 
     <header>
         <h1>SmartPark</h1>
         <p>Book hotel parking spaces securely using blockchain smart contracts</p>
+         <!--Wallect address -->
         <p id="walletAddress">Wallet not connected</p>
+         <!-- button to connect wallet -->
         <button id="connectWalletBtn">Connect Wallet</button>
     </header>
+
+    <!-- Main provider page contents -->
     <main class="provider-page">
 
-
+          <!-- Section to view withdrawal amount and for the provider to recieve that amount -->  
           <section class="card">
             <h2> Retrieve Payment From Bookings</h2>
-
+            <!-- view withdrawal amount --> 
             <p><strong>Withdrawal Amount:</strong>  
+              <!-- displays amount --> 
               <span id="loadPaymentMessage">Not loaded</span> 
+              <!-- button to reload withdrawal amount to view the most updated version--> 
               <span><button id="loadPaymentAmountBtn">Load Payment Amount</button></span> 
             </p>
-           
+
+            <!-- button to withdraw amount stored in BookingAndPayment contract --> 
             <button id="withdrawPaymentBtn" >Withdraw Payments</button>
         </section>
 
 
-
+        <!-- Section to create parking spaces --> 
         <section class="card">
             <h2>Create Parking Space</h2>
 
+            <!-- enter space name--> 
             <label>Space Name</label>
             <input id="spaceNameInput" type="text" placeholder="Enter space name">
 
+            <!-- enter space price per hour --> 
             <label>Price Per Hour</label>
             <input id="priceInput" type="number" placeholder="Enter price per hour">
 
+            <!-- enter location details --> 
             <label>Location</label>
             <input id="locationInput" type="text" placeholder="Enter location">
 
+            <!-- button that creates space --> 
             <button id="createSpaceBtn">Create Space</button>
         </section>
 
+        
+        <!-- Update parking space section--> 
         <section class="card">
             <h2>Update Parking Space</h2>
 
+            <!-- enter space ID of the space that needs updating--> 
             <label>Space ID</label>
             <input id="updateSpaceIdInput" type="number" placeholder="Enter space ID">
 
+            <!-- enter new space name--> 
             <label>New Space Name</label>
             <input id="updateSpaceNameInput" type="text" placeholder="Enter new space name">
 
+             <!-- enter new space price per hour --> 
             <label>New Price Per Hour</label>
             <input id="updatePriceInput" type="number" placeholder="Enter new price per hour">
 
+             <!-- enter new location details --> 
             <label>New Location</label>
             <input id="updateLocationInput" type="text" placeholder="Enter new location">
 
+            <!-- Update availability status -->
             <label>Availability</label>
             <select id="availabilityInput">
                 <option value="true">Available</option>
                 <option value="false">Unavailable</option>
             </select>
 
+             <!-- Button that updates space details --> 
             <button id="updateSpaceBtn">Update Space</button>
         </section>
 
+        
+        <!-- Section to delete parking spaces --> 
         <section class="card">
             <h2> Delete Parking Space</h2>
 
+            <!-- enter ID of space that is intended to be deleted--> 
             <label>Space ID</label>
             <input id="deleteSpaceIdInput" type="number" placeholder="Enter space ID">
 
+            <!-- Button of space that deletes space --> 
             <button id="deleteSpaceBtn" class="cancel-btn">Delete Space</button>
         </section>
 
+        
+        <!-- Section to view a list of all the created parking spaces --> 
         <section class="card">
             <h2>Managed Parking Spaces</h2>
             <p>View and manage parking spaces currently listed in SmartPark.</p>
-
+            
+            <!-- List of parking spaces (details of each space shown) --> 
             <div id="managedSpacesList"></div>
-
         </section>
 
+
+        <!-- Section to view a list of all the bookings and their details --> 
         <section class="card">
           <h2>All Bookings</h2>
           <p>View all bookings made for SmartPark parking spaces.</p>
-
+          <!-- list of bookings and their details--> 
           <div id="providerBookingsList"></div>
         </section>
 
+
+        <!-- Section that displays transaction status --> 
         <section class="card">
             <h2>Transaction Status</h2>
+            <!-- transaction status message --> 
             <p id="providerStatus">No provider transaction submitted yet.</p>
         </section>
     </main>
+
+    
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-        
+
         <script>
-        //CONTRACT ABI
+    // address of deployed ParkManagement smart contract from remix
     const parkingContractAddress = "0xcDa19750026550dBD8dc6497C90594aA014FD50E";
+
+    // address of deployed BookingAndPayment smart contract from remix
     const bookingContractAddress = "0x84023C13d97AAEf3D8f8970169c0F26cc87Fa544";
+
+    // ABI of ParkManagement smart contract
     const parkingContractABI = 
-    //PARKINGMANAGEMENT ABI
     [
   {
     "inputs": [],
@@ -487,6 +524,9 @@
     "type": "function"
   }
 ];
+
+            
+// ABI of BookingAndPayment smart contract
 const bookingContractABI = 
 [
   {
@@ -849,8 +889,9 @@ const bookingContractABI =
 ];
     </script>
    
-
+     // link to provider javascript document
     <script src="provider.js"></script>
+    
 </body>
 
 </html>
