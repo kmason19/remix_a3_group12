@@ -40,7 +40,7 @@ Select spaces, create bookings, complete or delete bookings and view bookings fo
 - Retrieve payment from completed bookings (provider page) - only provider can do this
 - View available parking spaces (home/index page) - viewable by anyone
 - Create parking bookings and pay for bookings (bookings page)
-- View booking summary when creating the booking (bookings page) - viewable as booking details are inputted into te booking creation section
+- View booking summary when creating the booking (bookings page) - viewable as booking details are inputted into the booking creation section
 - Complete bookings (done after the user is done with the parking space and allows the money from the booking to be given to the provider) or cancel (allows money to be refunded back to the user if the booking is no longer needed) bookings under manage bookings (bookings page)
 - View your bookings (bookings page) - only view the bookings made by the connected wallet account
 - View all recent bookings that have been booked by anyone (bookings page) - view the bookings of everyone (total amount of details and other more sensistive details are left out)
@@ -89,11 +89,11 @@ Alicia also created:
 - Payment withdrawn event
 
 
-## Front end and connection to backend (HTML, CSS, JavaScript) Contributions
+## Front-end and connection to backend (HTML, CSS, JavaScript) Contributions
 
-Front-end and connection to the back-end via javascript was mostly done by Kiara.
+Front-end and connection to the back-end via JavaScript was mostly done by Kiara.
 
-Alicia helped to set up the wallet connects on the booking and provider pages, added the HTML and Javascript for the payment withdrawal functionalities (both view and withdrawing payment), changed format of money to ETH on frontend and helped finish off the commenting of the code.
+Alicia helped to set up the wallet connects on the booking and provider pages, added the HTML and JavaScript for the payment withdrawal functionalities (both viewing and withdrawing payment), changed the format of money to ETH on the frontend and helped finish off the commenting of the code.
 
 
 
