@@ -4,16 +4,12 @@ let provider;
 
 // Stores the selected MetaMask wallet signer
 let signer;
-
 // Stores the ParkingSpaceManagement smart contract connection
 let parkingContract;
-
 // Stores the BookingAndPayment smart contract connection
 let bookingContract;
-
 // Stores the connected wallet address so bookings can be filtered by user
 let connectedAccount;
-
 // Stores the selected parking space price so the total can be calculated
 let selectedPricePerHour = 0;
 
@@ -186,6 +182,7 @@ document.getElementById("createBookingBtn").addEventListener("click", async () =
     return;
   }
 
+  // transaction messages related to creating a booking
   try {
     const totalAmount = selectedPricePerHour.mul(duration);
 
@@ -204,7 +201,9 @@ document.getElementById("createBookingBtn").addEventListener("click", async () =
     await loadSelectedSpace();
     await loadRecentBookings();
 
-  } catch (error) {
+  } 
+  //catches errors
+  catch (error) {
     transactionStatus.textContent = "Failed to create booking.";
     console.error(error);
   }
@@ -226,6 +225,7 @@ document.getElementById("cancelBookingBtn").addEventListener("click", async () =
     return;
   }
 
+  //transaction messages related to cancelling bookings
   try {
     transactionStatus.textContent = "Cancelling booking... Please confirm in MetaMask.";
 
@@ -239,7 +239,10 @@ document.getElementById("cancelBookingBtn").addEventListener("click", async () =
 
     await loadRecentBookings();
 
-  } catch (error) {
+  } 
+
+  //catches errors
+  catch (error) {
     transactionStatus.textContent = "Failed to cancel booking.";
     console.error(error);
   }
@@ -260,6 +263,7 @@ document.getElementById("completeBookingBtn").addEventListener("click", async ()
     return;
   }
 
+  // Transaction messages related to completing bookings
   try {
     transactionStatus.textContent = "Completing booking... Please confirm in MetaMask.";
 
@@ -273,7 +277,10 @@ document.getElementById("completeBookingBtn").addEventListener("click", async ()
 
     await loadRecentBookings();
 
-  } catch (error) {
+  } 
+
+  // catches errors
+  catch (error) {
     transactionStatus.textContent = "Failed to complete booking.";
     console.error(error);
   }
@@ -285,7 +292,10 @@ document.getElementById("completeBookingBtn").addEventListener("click", async ()
 async function loadRecentBookings() {
   if (!bookingContract) return;
 
+  // List of all bookings created by anyone
   const recentList = document.getElementById("recentBookingsList");
+  
+  // List of bookings created only be the connected wallet user
   const yourList = document.getElementById("yourBookingsList");
 
   recentList.innerHTML = "";
@@ -293,6 +303,7 @@ async function loadRecentBookings() {
 
   const count = await bookingContract.bookingCount();
 
+  // Display messages if no bookings are found
   if (count.toNumber() === 0) {
     recentList.innerHTML = "<p>No bookings created yet.</p>";
     yourList.innerHTML = "<p>No bookings found for this wallet.</p>";
@@ -301,7 +312,10 @@ async function loadRecentBookings() {
 
   let hasYourBookings = false;
 
+  //loops through all bookings stored in smart contract
   for (let i = 1; i <= count.toNumber(); i++) {
+
+    // Extracts the returned booking details from the smart contract
     const booking = await bookingContract.getBookingDetails(i);
 
     const bookingId = booking[0];
@@ -316,6 +330,7 @@ async function loadRecentBookings() {
 
     let status = "Confirmed";
 
+    // if statement that displays the booking status depending if booking has been stored as cancelled, completed or paid
     if (isCancelled) {
       status = "Cancelled";
     } else if (isCompleted) {
@@ -324,11 +339,13 @@ async function loadRecentBookings() {
       status = "Paid";
     }
 
+    // formatting timestamp of booking
     const formattedTime = new Date(
       Number(timestamp.toString()) * 1000
     ).toLocaleString();
 
     // Recent Bookings shows a simpler public booking summary
+    // booking details that are displayed on each booking card (ID, user, duration, status and time)
     recentList.innerHTML += `
       <div class="recent-booking">
         <h3>Booking #${bookingId.toString()}</h3>
@@ -347,6 +364,7 @@ async function loadRecentBookings() {
     ) {
       hasYourBookings = true;
 
+      // booking details that are displayed on each booking card (ID, user, duration, total amount, status and time)
       yourList.innerHTML += `
         <div class="recent-booking">
           <h3>Booking #${bookingId.toString()}</h3>
